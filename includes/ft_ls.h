@@ -6,13 +6,13 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 17:01:30 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/04/05 17:17:32 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/04/05 19:05:06 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_LS_H
 # define FT_LS_H
 
-int		main(int ac, char **av, char **env);
+typedef struct dirent t_dirent;
 
 #endif
