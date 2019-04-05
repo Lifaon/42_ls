@@ -1,0 +1,9 @@
+# exe
+ft_ls
+
+# object files 
+objs
+*.o
+
+# lib
+*.a
