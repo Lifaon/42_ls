@@ -71,38 +71,51 @@ int		ft_closedir(DIR *dir)
 	return (ret);
 }
 
+int		ft_readdir(int size, DIR *dir)
+{
+	t_dirent	**contents;
+	t_dirent	*tmp;
+	int			errno;
+	int			i;
+	int			j;
+
+	if (!(contents = (t_dirent **)malloc(sizeof(t_dirent*) * size)))
+	{
+		ft_dprintf(2, "Malloc error: %s\n", strerror(errno));
+		return (1);
+	}
+	i = -1;
+	while (++i < size)
+	{
+		tmp = readdir(dir);
+		j = -1;
+		// while (++j < i)
+	}
+	free(contents);
+	return (0);
+}
+
 int		main(int ac, char **av, char **env)
 {
-	DIR			*current;
-	t_dirent	**dirent;
+	DIR			*dir;
 	char		*pwd;
 	int			size;
 	int			i;
-	int			errno;
 
 	pwd = ft_env_var(env, "PWD");
-	if (!(current = ft_opendir(pwd)))
-		free_exit(1, NULL);
+	if (!(dir = ft_opendir(pwd)))
+		return (1);
 	size = 0;
-	while (readdir(current))
+	while (readdir(dir))
 		++size;
-	if (ft_closedir(current))
-		free_exit(1, NULL);
-	if (!(dirent = (t_dirent **)malloc(sizeof(t_dirent*) * size)))
-	{
-		ft_dprintf(2, "Malloc error: %s\n", strerror(errno));
-		return (-1);
-	}
-	if (!(current = ft_opendir(pwd)))
-		free_exit(1, &dirent);
+	if (ft_closedir(dir))
+		return (1);
+	if (!(dir = ft_opendir(pwd)))
+		return (1);
+	if (ft_readdir(size, dir))
+		return (1);
+	if (ft_closedir(dir))
+		return (1);
 	i = 0;
-	while (i < size)
-		dirent[i++] = readdir(current);
-	if (ft_closedir(current))
-		free_exit(1, &dirent);
-	i = 0;
-	while (i < size)
-		ft_printf("%s\n", dirent[i++]->d_name);
-	free(dirent);
 	return (0);
 }
