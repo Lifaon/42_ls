@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+         #
+#    By: meriadec <meriadec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/21 22:00:00 by mlantonn          #+#    #+#              #
-#    Updated: 2019/04/05 17:22:37 by mlantonn         ###   ########.fr        #
+#    Updated: 2019/04/07 12:31:38 by meriadec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,9 @@ OBJS_SUB_DIRS =
 OBJS_PRE = $(addprefix $(OBJS_DIR)/, $(OBJS))
 
 SRCS_DIR = srcs
-SRCS =	main.c
+SRCS =	main.c \
+		ft_readdir.c \
+		utils.c
 
 .PHONY = all $(OBJS_DIR) $(NAME) clean fclean re
 
@@ -70,3 +72,12 @@ fclean: clean
 	@rm -rf $(NAME)
 
 re: fclean all
+
+# debug rules
+
+debug: change_cflag all
+
+re_debug: fclean debug
+
+change_cflag:
+	@$(eval CFLAGS = -fsanitize=address)
