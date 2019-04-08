@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ls.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meriadec <meriadec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 17:01:30 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/04/08 00:47:54 by meriadec         ###   ########.fr       */
+/*   Updated: 2019/04/08 19:19:29 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@
 
 #include "ft_printf.h"
 #include "structs.h"
+#include "defines.h"
 
 int		ft_readdir(char *path);
+void	get_data(t_data *data, DIR *dir, char *path);
 
 /*
 **	Utils.

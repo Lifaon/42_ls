@@ -3,39 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   ft_readdir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meriadec <meriadec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/07 12:30:28 by meriadec          #+#    #+#             */
-/*   Updated: 2019/04/08 00:49:48 by meriadec         ###   ########.fr       */
+/*   Updated: 2019/04/08 19:25:10 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static int	cmp_contents(t_dir *content, t_dir *tmp)
+static int	cmp_contents(t_data content, t_data tmp)
 {
 	int i;
 
 	i = 0;
-	while (content->d_name[i] && tmp->d_name[i] \
-		&& content->d_name[i] == tmp->d_name[i])
+	while (content.name[i] && tmp.name[i] \
+		&& content.name[i] == tmp.name[i])
 		++i;
-	if (content->d_name[i] <= tmp->d_name[i])
+	if (content.name[i] <= tmp.name[i])
 		return (1);
 	return (0);
 }
 
-static void	sort_contents(t_dir ***contents, DIR *dir, int size)
+static void	sort_contents(t_data **contents, DIR *dir, char *path, int size)
 {
-	t_dir	*tmp;
+	t_data	tmp;
 	int		i;
 	int		j;
 
-	(*contents)[0] = readdir(dir);
+	get_data(contents[0], dir, path);
 	i = 0;
 	while (++i < size)
 	{
-		tmp = readdir(dir);
+		get_data(&tmp, dir, path);
 		j = i;
 		while (--j >= 0)
 		{
@@ -45,28 +45,28 @@ static void	sort_contents(t_dir ***contents, DIR *dir, int size)
 				break ;
 			}
 			else
-				(*contents)[j + 1] = (*contents)[j];
+					(*contents)[j + 1] = (*contents)[j];
 		}
 		if (j == -1)
 			(*contents)[0] = tmp;
 	}
 }
 
-static void	print_contents(t_dir **contents, int size)
+static void	print_contents(t_data *contents, int size)
 {
 	int i;
 
 	i = -1;
 	while (++i < size)
 	{
-		ft_printf("%s\n", contents[i]->d_name);
+		ft_printf("%c%s %s\n", contents[i].type, contents[i].rights, contents[i].name);
 	}
 }
 
 int			ft_readdir(char *path)
 {
 	DIR		*dir;
-	t_dir	**contents;
+	t_data	*contents;
 	int		size;
 
 	if (!(dir = ft_opendir(path)))
@@ -76,14 +76,14 @@ int			ft_readdir(char *path)
 		++size;
 	if (ft_closedir(dir))
 		return (1);
-	if (!(contents = (t_dir **)ft_malloc(sizeof(t_dir*) * size)))
+	if (!(contents = (t_data *)ft_malloc(sizeof(t_data) * size)))
 		return (1);
 	if (!(dir = ft_opendir(path)))
 	{
 		free(contents);
 		return (1);
 	}
-	sort_contents(&contents, dir, size);
+	sort_contents(&contents, dir, path, size);
 	print_contents(contents, size);
 	free(contents);
 	if (ft_closedir(dir))

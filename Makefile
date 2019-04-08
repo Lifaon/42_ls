@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: meriadec <meriadec@student.42.fr>          +#+  +:+       +#+         #
+#    By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/21 22:00:00 by mlantonn          #+#    #+#              #
-#    Updated: 2019/04/07 12:31:38 by meriadec         ###   ########.fr        #
+#    Updated: 2019/04/08 18:26:05 by mlantonn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ OBJS_PRE = $(addprefix $(OBJS_DIR)/, $(OBJS))
 SRCS_DIR = srcs
 SRCS =	main.c \
 		ft_readdir.c \
+		get_data.c \
 		utils.c
 
 .PHONY = all $(OBJS_DIR) $(NAME) clean fclean re
