@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 18:21:44 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/04/08 19:45:20 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/04/09 18:12:52 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,22 +57,22 @@ static void	get_rights(char (*rights)[10], t_stat st)
 	(*rights)[9] = '\0';
 }
 
-static char	get_type(t_stat st)
+static char	get_type(unsigned char type)
 {
-	if (S_ISDIR(st.st_mode))
-		return ('d');
-	else if (S_ISLNK(st.st_mode))
-		return ('l');
-	else if (S_ISFIFO(st.st_mode))
-		return ('p');
-	else if (S_ISBLK(st.st_mode))
-		return ('b');
-	else if (S_ISCHR(st.st_mode))
-		return ('c');
-	else if (S_ISSOCK(st.st_mode))
-		return ('s');
-	else if (S_ISREG(st.st_mode))
+	if (type == DT_REG)
 		return ('-');
+	if (type == DT_DIR)
+		return ('d');
+	if (type == DT_LNK)
+		return ('l');
+	if (type == DT_FIFO)
+		return ('p');
+	if (type == DT_BLK)
+		return ('b');
+	if (type == DT_CHR)
+		return ('c');
+	if (type == DT_SOCK)
+		return ('s');
 	return ('?');
 }
 
@@ -87,6 +87,6 @@ void		get_data(t_data *data, DIR *dir, char *path)
 		return ;
 	if (stat(data->fullpath, &st))
 		return ;
-	data->type = get_type(st);
+	data->type = get_type(tmp->d_type);
 	get_rights(&data->rights, st);
 }
