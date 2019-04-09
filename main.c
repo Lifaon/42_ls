@@ -33,7 +33,7 @@ int main ( int argc, char ** argv ) {
 			gr = getgrgid(st.st_gid);
 			time = ctime(&st.st_mtim.tv_sec);
 			// time[strlen(time) - 1] = '\0';
-			printf("%10.10s %ld %s %s %ld %.7s %s\n", \
+			printf("%10.10s %ld %s %s %ld %.12s %s\n", \
 				mode, st.st_nlink, pw->pw_name, gr->gr_name, \
 				st.st_size, time + 4, argv[i]);
 		}

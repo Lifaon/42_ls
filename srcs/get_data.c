@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 18:21:44 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/04/09 18:35:41 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/04/09 19:19:24 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ void		get_data(t_data *data, DIR *dir, char *path)
 {
 	t_dir	*tmp;
 	t_stat	st;
+	t_usr	*usr;
+	t_grp	*grp;
 
 	tmp = readdir(dir);
 	ft_sprintf(data->name, tmp->d_name);
@@ -71,4 +73,13 @@ void		get_data(t_data *data, DIR *dir, char *path)
 		return ;
 	data->type = get_type(tmp->d_type);
 	get_rights(&data->rights, st);
+	data->links = st.st_nlink;
+	usr = getpwuid(st.st_uid);
+	grp = getgrgid(st.st_gid);
+	if (usr)
+		ft_sprintf(data->usr_name, usr->pw_name);
+	if (grp)
+		ft_sprintf(data->grp_name, grp->gr_name);
+	data->size = st.st_size;
+	ft_snprintf(data->time, 13, ctime(&st.st_mtim.tv_sec) + 4);
 }

@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 17:01:30 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/04/08 19:19:29 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/04/09 19:19:00 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <string.h>
 #include <errno.h>
 #include <dirent.h>
+#include <time.h>
 
 #include "ft_printf.h"
 #include "structs.h"

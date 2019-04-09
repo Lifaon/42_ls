@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/07 12:30:28 by meriadec          #+#    #+#             */
-/*   Updated: 2019/04/09 18:38:40 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/04/09 19:18:23 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,16 @@ static void	sort_contents(t_data **contents, DIR *dir, char *path, int size)
 	}
 }
 
-static void	print_contents(t_data *contents, int size)
+static void	print_contents(t_data *arr, int size)
 {
 	int i;
 
 	i = -1;
 	while (++i < size)
 	{
-		ft_printf("%c%s %s\n", contents[i].type, contents[i].rights, contents[i].name);
+		ft_printf("%c%s %d %s %s %d %s %s\n", arr[i].type, arr[i].rights, \
+			arr[i].links, arr[i].usr_name, arr[i].grp_name, arr[i].size, \
+			arr[i].time, arr[i].name);
 	}
 }
 
