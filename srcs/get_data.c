@@ -6,30 +6,11 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 18:21:44 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/04/09 18:12:52 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/04/09 18:35:41 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
-
-static int	get_fullpath(t_data *data, char *path)
-{
-	int size;
-	int i;
-	int j;
-
-	j = 0;
-	while (data->name[j])
-		++j;
-	i = 0;
-	while (path[i])
-		++i;
-	size = sizeof(char) * (i + j + 2);
-	if (!(data->fullpath = (char *)malloc(size)))
-		return (1);
-	ft_sprintf(data->fullpath, "%s/%s", path, data->name);
-	return (0);
-}
 
 static void	get_rights(char (*rights)[10], t_stat st)
 {
@@ -83,8 +64,9 @@ void		get_data(t_data *data, DIR *dir, char *path)
 
 	tmp = readdir(dir);
 	ft_sprintf(data->name, tmp->d_name);
-	if (get_fullpath(data, path))
+	if (ft_smprintf(&data->fullpath, "%s/%s", path, data->name) == -1)
 		return ;
+	// ne pas oublier de free
 	if (stat(data->fullpath, &st))
 		return ;
 	data->type = get_type(tmp->d_type);

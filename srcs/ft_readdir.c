@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/07 12:30:28 by meriadec          #+#    #+#             */
-/*   Updated: 2019/04/08 19:25:10 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/04/09 18:38:40 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,18 @@ static void	print_contents(t_data *contents, int size)
 	}
 }
 
+static void	free_contents(t_data *contents, int size)
+{
+	int i;
+
+	i = -1;
+	while (++i < size)
+	{
+		free(contents[i].fullpath);
+	}
+	free(contents);
+}
+
 int			ft_readdir(char *path)
 {
 	DIR		*dir;
@@ -85,7 +97,7 @@ int			ft_readdir(char *path)
 	}
 	sort_contents(&contents, dir, path, size);
 	print_contents(contents, size);
-	free(contents);
+	free_contents(contents, size);
 	if (ft_closedir(dir))
 		return (1);
 	return (0);
