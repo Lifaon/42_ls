@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 14:23:19 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/04/11 12:02:04 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/04/11 14:27:18 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,8 +124,8 @@ static int	can_be_formatted(t_env *env)
 			tmp = 0;
 			while (++j < lines)
 			{
-				if ((j * lines) + i < env->size && tmp < env->contents[(j * lines) + i].name_len)
-					tmp = env->contents[(j * lines) + i].name_len;
+				if ((j * lines) + i < env->size && tmp < env->contents[(j * lines) + i].name_len + 2)
+					tmp = env->contents[(j * lines) + i].name_len + 2;
 			}
 			len += tmp;
 			
