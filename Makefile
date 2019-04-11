@@ -6,7 +6,7 @@
 #    By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/21 22:00:00 by mlantonn          #+#    #+#              #
-#    Updated: 2019/04/08 18:26:05 by mlantonn         ###   ########.fr        #
+#    Updated: 2019/04/10 14:28:01 by mlantonn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ SRCS_DIR = srcs
 SRCS =	main.c \
 		ft_readdir.c \
 		get_data.c \
+		print_contents.c \
 		utils.c
 
 .PHONY = all $(OBJS_DIR) $(NAME) clean fclean re

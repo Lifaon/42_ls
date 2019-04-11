@@ -6,18 +6,11 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/07 12:18:39 by meriadec          #+#    #+#             */
-/*   Updated: 2019/04/08 13:26:11 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/04/10 13:44:18 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
-
-void	free_exit(int val, void *to_free)
-{
-	if (to_free)
-		free(to_free);
-	exit (val);
-}
 
 void	*ft_malloc(unsigned long long size)
 {
@@ -58,24 +51,25 @@ int		ft_closedir(DIR *dir)
 	return (ret);
 }
 
-char	*ft_env_var(char **env, char *var)
+int		ft_shortstrlen(char str[256])
 {
 	int i;
-	int j;
 
 	i = 0;
-	while (env[i] != NULL)
-	{
-		j = 0;
-		while (env[i][j] && var[j])
-		{
-			if (env[i][j] != var[j])
-				break ;
-			++j;
-		}
-		if (var[j] == '\0')
-			return (env[i] + j + 1);
+	while (str[i])
 		++i;
+	return (i);
+}
+
+int		ft_uintsize(unsigned int nb)
+{
+	int size;
+
+	size = 1;
+	while (nb >= 10)
+	{
+		nb /= 10;
+		++size;
 	}
-	return (NULL);
+	return (size);
 }

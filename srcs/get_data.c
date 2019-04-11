@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 18:21:44 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/04/09 19:19:24 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/04/11 09:22:32 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,29 +57,48 @@ static char	get_type(unsigned char type)
 	return ('?');
 }
 
-void		get_data(t_data *data, DIR *dir, char *path)
+static int	get_next_dirent(t_data *data, DIR *dir, char *path, _Bool opt[128])
 {
-	t_dir	*tmp;
-	t_stat	st;
-	t_usr	*usr;
-	t_grp	*grp;
+	t_dirent *tmp;
 
-	tmp = readdir(dir);
-	ft_sprintf(data->name, tmp->d_name);
-	if (ft_smprintf(&data->fullpath, "%s/%s", path, data->name) == -1)
-		return ;
-	// ne pas oublier de free
-	if (stat(data->fullpath, &st))
-		return ;
+	if (opt['a'])
+		tmp = readdir(dir);
+	else
+	{
+		while (tmp = readdir(dir))
+			if (tmp->d_name[0] != '.')
+				break ;
+	}
+	if (tmp == NULL)
+		return (-1);
+	data->name_len = ft_snprintf(data->name, 256, tmp->d_name);
 	data->type = get_type(tmp->d_type);
+	if (ft_smprintf(&data->fullpath, "%s/%s", path, data->name) == -1)
+		return (-1);
+	return (0);
+}
+
+int			get_data(t_data *data, DIR *dir, char *path, _Bool opt[128])
+{
+	t_stat		st;
+	t_passwd	*usr;
+	t_group		*grp;
+
+	if (get_next_dirent(data, dir, path, opt))
+		return (-1);
+	if (!opt['l'])
+		return (0);
+	if (stat(data->fullpath, &st))
+		return (-1);
 	get_rights(&data->rights, st);
 	data->links = st.st_nlink;
 	usr = getpwuid(st.st_uid);
 	grp = getgrgid(st.st_gid);
-	if (usr)
-		ft_sprintf(data->usr_name, usr->pw_name);
-	if (grp)
-		ft_sprintf(data->grp_name, grp->gr_name);
+	if (!usr || !grp)
+		return (-1);
+	ft_snprintf(data->usr_name, 256, usr->pw_name);
+	ft_snprintf(data->grp_name, 256, grp->gr_name);
 	data->size = st.st_size;
+	data->blocks = st.st_blocks;
 	ft_snprintf(data->time, 13, ctime(&st.st_mtim.tv_sec) + 4);
 }
