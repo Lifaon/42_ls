@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 17:01:30 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/04/10 19:37:53 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/04/11 14:46:51 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 int		ft_readdir(char *path, _Bool opt[128]);
 int		get_data(t_data *data, DIR *dir, char *path, _Bool opt[128]);
 void	print_contents(t_env *env);
+int		print_formatted(t_env *env);
 
 /*
 **	Utils.
