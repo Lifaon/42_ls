@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 12:04:19 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/04/11 17:47:11 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/04/11 19:19:07 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ static void	set_name_width(t_env *env, int lines)
 	cols = (env->size / lines) + 1;
 	i = -1;
 	while (++i < cols)
-		env->contents[i].name_width = 0;
+		if (i < env->size)
+			env->contents[i].name_width = 0;
 	i = -1;
 	while (++i < lines)
 	{
@@ -57,8 +58,9 @@ static void	set_name_width(t_env *env, int lines)
 		{
 			k = (j * lines) + i;
 			tmp = k < env->size ? env->contents[k].name_len + 2 : 0;
-			env->contents[j].name_width = env->contents[j].name_width >= tmp \
-				? env->contents[j].name_width : tmp;
+			if (j < env->size)
+				env->contents[j].name_width = env->contents[j].name_width \
+					>= tmp ? env->contents[j].name_width : tmp;
 		}
 	}
 }
@@ -87,6 +89,7 @@ int			print_formatted(t_env *env)
 {
 	int lines;
 	int cols;
+	int width;
 	int i;
 	int j;
 
@@ -98,9 +101,11 @@ int			print_formatted(t_env *env)
 	{
 		j = -1;
 		while (++j < cols)
+		{
+			width = j < env->size ? env->contents[j].name_width : 0;
 			if ((j * lines) + i < env->size)
-				ft_printf("%-*s", env->contents[j].name_width, \
-					env->contents[(j * lines) + i].name);
+				ft_printf("%-*s", width, env->contents[(j * lines) + i].name);
+		}
 		ft_printf("\n");
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 18:21:44 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/04/11 16:20:35 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/04/11 19:26:59 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ static int	get_next_dirent(t_data *data, DIR *dir, char *path, _Bool opt[128])
 {
 	t_dirent *tmp;
 
+	data->fullpath = NULL;
 	if (opt['a'])
 		tmp = readdir(dir);
 	else

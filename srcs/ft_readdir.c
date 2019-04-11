@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/07 12:30:28 by meriadec          #+#    #+#             */
-/*   Updated: 2019/04/11 17:46:05 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/04/11 19:47:10 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,14 @@ static void	free_contents(t_env *env)
 	int i;
 
 	i = -1;
+	ft_printf("size = %d\n", env->size);
 	while (++i < env->size)
 	{
 		if (env->contents[i].fullpath)
+		{
 			free(env->contents[i].fullpath);
+			env->contents[i].fullpath = NULL;
+		}
 	}
 	free(env->contents);
 }
@@ -138,7 +142,7 @@ int			ft_readdir(char *path, _Bool opt[128])
 	sort_contents(&env, dir);
 	if (ft_closedir(dir))
 	{
-		free(env.contents);
+		free_contents(&env);
 		return (1);
 	}
 	print_contents(&env);

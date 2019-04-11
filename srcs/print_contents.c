@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 14:23:19 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/04/11 17:45:46 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/04/11 19:45:05 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ static void	print_details(t_env *env)
 	get_sizes(&sizes, env);
 	i = -1;
 	while (++i < env->size)
+	{
 		ft_printf("%c%s %*ld %-*s %-*s %*ld %s %s\n", \
 			env->contents[i].type, env->contents[i].rights, \
 			sizes[0], env->contents[i].links, \
@@ -54,6 +55,7 @@ static void	print_details(t_env *env)
 			sizes[2], env->contents[i].grp_name, \
 			sizes[3], env->contents[i].size, \
 			env->contents[i].time, env->contents[i].name);
+	}
 }
 
 void		print_contents(t_env *env)
