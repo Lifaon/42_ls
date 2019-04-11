@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/07 12:41:35 by meriadec          #+#    #+#             */
-/*   Updated: 2019/04/11 15:02:13 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/04/11 15:46:42 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,11 @@ typedef struct	s_data
 	char		usr_name[256];
 	char		grp_name[256];
 	long int	size;
+	long int	time_s;
 	char		time[13];
 	char		name[256];
-	char		name_len;
-	char		name_width;
+	short		name_len;
+	short		name_width;
 	char		*fullpath;
 	int			blocks;
 }				t_data;

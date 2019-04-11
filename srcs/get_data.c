@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 18:21:44 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/04/11 09:22:32 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/04/11 16:20:35 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,10 @@ static int	get_next_dirent(t_data *data, DIR *dir, char *path, _Bool opt[128])
 	else
 	{
 		while (tmp = readdir(dir))
+		{
 			if (tmp->d_name[0] != '.')
 				break ;
+		}
 	}
 	if (tmp == NULL)
 		return (-1);
@@ -86,10 +88,13 @@ int			get_data(t_data *data, DIR *dir, char *path, _Bool opt[128])
 
 	if (get_next_dirent(data, dir, path, opt))
 		return (-1);
-	if (!opt['l'])
+	if (!opt['l'] && !opt['t'])
 		return (0);
 	if (stat(data->fullpath, &st))
 		return (-1);
+	data->time_s = st.st_mtim.tv_sec;
+	if (!opt['l'])
+		return (0);
 	get_rights(&data->rights, st);
 	data->links = st.st_nlink;
 	usr = getpwuid(st.st_uid);
@@ -101,4 +106,5 @@ int			get_data(t_data *data, DIR *dir, char *path, _Bool opt[128])
 	data->size = st.st_size;
 	data->blocks = st.st_blocks;
 	ft_snprintf(data->time, 13, ctime(&st.st_mtim.tv_sec) + 4);
+	return (0);
 }

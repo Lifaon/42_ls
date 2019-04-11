@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 14:23:19 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/04/11 14:46:41 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/04/11 15:37:01 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ static void	print_details(t_env *env)
 	i = -1;
 	while (++i < env->size)
 		blocks += env->contents[i].blocks;
-	ft_printf("total %d\n", blocks);
 	get_sizes(&sizes, env);
 	i = -1;
 	while (++i < env->size)
@@ -66,10 +65,9 @@ void		print_contents(t_env *env)
 	if (!env->opt['l'])
 	{
 		i = -1;
-		print_formatted(env);
-		// if (env->opt['1']);
-		// 	while (++i < env->size)
-		// 		ft_printf("%s\n", env->contents[i].name);
+		if (env->opt['1'] || print_formatted(env))
+			while (++i < env->size)
+				ft_printf("%s\n", env->contents[i].name);
 	}
 	else
 		print_details(env);
