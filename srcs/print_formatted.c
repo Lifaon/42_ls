@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 12:04:19 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/04/11 15:05:38 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/04/11 17:47:11 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,16 @@ static int	get_lines_len(t_env *env, int lines)
 	i = -1;
 	len = 0;
 	cols = (env->size / lines) + 1;
-	while (++i < cols)
+	while (++i < lines)
 	{
 		j = -1;
 		tmp = 0;
-		while (++j < lines)
+		while (++j < cols)
 		{
-			if ((j * lines) + i < env->size \
-				&& tmp < env->contents[(j * lines) + i].name_len + 2)
-				tmp = env->contents[(j * lines) + i].name_len + 2;
+			if ((j * lines) + i < env->size)
+				tmp += env->contents[(j * lines) + i].name_len + 2;
 		}
-		len += tmp;
+		len = len >= tmp ? len : tmp;
 	}
 	return (len);
 }
@@ -72,7 +71,7 @@ static int	get_lines(t_env *env)
 	if (ioctl(1, TIOCGWINSZ, &ws))
 		return (0);
 	lines = 1;
-	while (lines < env->size / 2)
+	while (lines < ((env->size) / 2) + 1)
 	{
 		if (get_lines_len(env, lines) < ws.ws_col)
 		{

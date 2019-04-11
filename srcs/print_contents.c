@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 14:23:19 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/04/11 15:37:01 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/04/11 17:45:46 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ static void	print_details(t_env *env)
 	int	blocks;
 	int	i;
 
-	if (env->opt['R'])
-		ft_printf("%s:\n", env->path);
 	blocks = 0;
 	i = -1;
 	while (++i < env->size)
