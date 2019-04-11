@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 14:23:19 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/04/11 09:49:34 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/04/11 12:02:04 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,21 +66,25 @@ static int	print_formatted(t_env *env, int lines)
 	int tmp;
 	int i;
 	int j;
+	int k;
 
-	cols = (env->size / lines);
+	cols = (env->size / lines) + 1;
+	ft_printf("%d cols / %d lines\n", cols, lines);
 	if (!(sizes = (int *)malloc(sizeof(int) * cols)))
 		return (0);
 	i = -1;
 	while (++i < cols)
 		sizes[i] = 0;
 	i = -1;
-	while (++i < cols)
+	while (++i < lines)
 	{
 		j = -1;
-		while (++j < lines)
+		while (++j < cols)
 		{
-			tmp = env->contents[(j * cols) + i].name_len + 2;
-			sizes[i] = sizes[i] >= tmp ? sizes[i] : tmp;
+			k = (j * lines) + i;
+			tmp = k < env->size ? env->contents[k].name_len + 2 : 0;
+			sizes[j] = sizes[j] >= tmp ? sizes[j] : tmp;
+			// ft_printf("line n°%d / col n°%d / name = %s\n", i, j, env->contents[k].name);
 		}
 	}
 	i = -1;
@@ -88,7 +92,8 @@ static int	print_formatted(t_env *env, int lines)
 	{
 		j = -1;
 		while (++j < cols)
-			ft_printf("%-*s", sizes[j], env->contents[(i * cols) + j].name);
+			if ((j * lines) + i < env->size)
+				ft_printf("%-*s", sizes[j], env->contents[(j * lines) + i].name);
 		ft_printf("\n");
 	}
 	free(sizes);
@@ -99,8 +104,11 @@ static int	can_be_formatted(t_env *env)
 {
 	t_winsize	ws;
 	int			lines;
+	int			cols;
+	int			tmp;
 	int			len;
 	int			i;
+	int			j;
 
 	if (ioctl(1, TIOCGWINSZ, &ws))
 		return (-1);
@@ -109,13 +117,20 @@ static int	can_be_formatted(t_env *env)
 	{
 		i = -1;
 		len = 0;
-		while (++i < env->size && len < ws.ws_col)
+		cols = (env->size / lines) + 1;
+		while (++i < cols)
 		{
-			if (!(i % (env->size / lines)))
-				len = 0;
-			len += env->contents[i].name_len + 2;
+			j = -1;
+			tmp = 0;
+			while (++j < lines)
+			{
+				if ((j * lines) + i < env->size && tmp < env->contents[(j * lines) + i].name_len)
+					tmp = env->contents[(j * lines) + i].name_len;
+			}
+			len += tmp;
+			
 		}
-		if (i == env->size)
+		if (len < ws.ws_col)
 			return (print_formatted(env, lines));
 		++lines;
 	}
