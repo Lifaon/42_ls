@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/07 12:30:28 by meriadec          #+#    #+#             */
-/*   Updated: 2019/05/16 22:38:29 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/05/16 23:01:13 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ static int	init_env(t_env *env, char *path, _Bool opt[128])
 			++env->size;
 	if (ft_closedir(dir))
 		return (1);
-	return (0);
+	return (!env->size);
 }
 
 int			ft_readdir(char *path, _Bool opt[128])
@@ -133,20 +133,18 @@ int			ft_readdir(char *path, _Bool opt[128])
 
 	if (init_env(&env, path, opt))
 		return (0);
-	if (!env.size)
-		return (0);
 	if (!(env.contents = (t_data *)ft_malloc(sizeof(t_data) * env.size)))
 		return (1);
 	i = -1;
 	while (++i < env.size)
 		env.contents[i].fullpath = NULL;
 	if (!(dir = ft_opendir(env.path)))
-	{
-		free(env.contents);
-		return (1);
-	}
-	if (sort_contents(&env, dir))
 		return (free_contents(&env, 1));
+	if (sort_contents(&env, dir))
+	{
+		ft_closedir(dir);
+		return (free_contents(&env, 1));
+	}
 	if (ft_closedir(dir))
 		return (free_contents(&env, 1));
 	print_contents(&env);
