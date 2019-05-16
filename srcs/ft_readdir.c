@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/07 12:30:28 by meriadec          #+#    #+#             */
-/*   Updated: 2019/04/11 19:56:31 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/05/16 22:38:29 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,19 @@ static int	cmp_contents(t_data content, t_data tmp, _Bool opt[128])
 	return (1);
 }
 
-static void	sort_contents(t_env *env, DIR *dir)
+static int	sort_contents(t_env *env, DIR *dir)
 {
 	t_data	tmp;
 	int		i;
 	int		j;
 
 	if (get_data(&env->contents[0], dir, env->path, env->opt))
-		return ;
+		return (-1);
 	i = 0;
 	while (++i < env->size)
 	{
-		get_data(&tmp, dir, env->path, env->opt);
+		if (get_data(&tmp, dir, env->path, env->opt))
+			return (-1);
 		j = i;
 		while (--j >= 0)
 		{
@@ -60,6 +61,7 @@ static void	sort_contents(t_env *env, DIR *dir)
 		if (j == -1)
 			env->contents[0] = tmp;
 	}
+	return (0);
 }
 
 static void read_subcontents(t_env *env)
@@ -83,7 +85,7 @@ static void read_subcontents(t_env *env)
 		}
 }
 
-static void	free_contents(t_env *env)
+static int	free_contents(t_env *env, int ret)
 {
 	int i;
 
@@ -97,6 +99,7 @@ static void	free_contents(t_env *env)
 		}
 	}
 	free(env->contents);
+	return (ret);
 }
 
 static int	init_env(t_env *env, char *path, _Bool opt[128])
@@ -126,6 +129,7 @@ int			ft_readdir(char *path, _Bool opt[128])
 {
 	DIR		*dir;
 	t_env	env;
+	int		i;
 
 	if (init_env(&env, path, opt))
 		return (0);
@@ -133,19 +137,19 @@ int			ft_readdir(char *path, _Bool opt[128])
 		return (0);
 	if (!(env.contents = (t_data *)ft_malloc(sizeof(t_data) * env.size)))
 		return (1);
+	i = -1;
+	while (++i < env.size)
+		env.contents[i].fullpath = NULL;
 	if (!(dir = ft_opendir(env.path)))
 	{
 		free(env.contents);
 		return (1);
 	}
-	sort_contents(&env, dir);
+	if (sort_contents(&env, dir))
+		return (free_contents(&env, 1));
 	if (ft_closedir(dir))
-	{
-		free_contents(&env);
-		return (1);
-	}
+		return (free_contents(&env, 1));
 	print_contents(&env);
 	read_subcontents(&env);
-	free_contents(&env);
-	return (0);
+	return (free_contents(&env, 0));
 }
