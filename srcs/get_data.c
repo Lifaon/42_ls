@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 18:21:44 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/05/17 14:11:07 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/05/17 14:15:57 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,12 @@ static char	get_type(unsigned char type)
 static int	get_next_dirent(t_data *data, DIR *dir, char *path, _Bool opt[128])
 {
 	t_dirent	*tmp;
+	int			i;
 
-	if (path[0] == '/' && path[1] == '\0')
-		path[0] = '\0';
+	i = -1;
+	while (path[++i] != '\0')
+		if (path[i] == '/' && path[i+1] == '\0')
+			path[i] = '\0';
 	data->fullpath = NULL;
 	if (opt['a'])
 		tmp = readdir(dir);
