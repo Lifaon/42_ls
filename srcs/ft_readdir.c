@@ -40,14 +40,15 @@ static int	sort_contents(t_env *env, DIR *dir)
 	int		i;
 	int		j;
 
-	if (get_data(&env->contents[0], dir, env->path, env->opt))
-		return (-1);
 	i = 0;
-	while (++i < env->size)
+	while (i < env->size)
 	{
 		if (get_data(&tmp, dir, env->path, env->opt))
-			return (-1);
-		j = i;
+		{
+			env->size--;
+			continue ;
+		}
+		j = i++;
 		while (--j >= 0)
 		{
 			if (cmp_contents(env->contents[j], tmp, env->opt))
