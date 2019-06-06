@@ -34,7 +34,7 @@ static int	cmp_contents(t_data content, t_data tmp, _Bool opt[128])
 	return (1);
 }
 
-static int	sort_contents(t_env *env, DIR *dir)
+static void	sort_contents(t_env *env, DIR *dir)
 {
 	t_data	tmp;
 	int		i;
@@ -56,13 +56,11 @@ static int	sort_contents(t_env *env, DIR *dir)
 				env->contents[j + 1] = tmp;
 				break ;
 			}
-			else
-				env->contents[j + 1] = env->contents[j];
+			env->contents[j + 1] = env->contents[j];
 		}
 		if (j == -1)
 			env->contents[0] = tmp;
 	}
-	return (0);
 }
 
 static void read_subcontents(t_env *env)
@@ -141,11 +139,7 @@ int			ft_readdir(char *path, _Bool opt[128])
 		env.contents[i].fullpath = NULL;
 	if (!(dir = ft_opendir(env.path)))
 		return (free_contents(&env, 1));
-	if (sort_contents(&env, dir))
-	{
-		ft_closedir(dir);
-		return (free_contents(&env, 1));
-	}
+	sort_contents(&env, dir);
 	if (ft_closedir(dir))
 		return (free_contents(&env, 1));
 	print_contents(&env);
