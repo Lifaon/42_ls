@@ -6,10 +6,11 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 18:21:44 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/05/17 14:15:57 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/06/11 19:28:26 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <errno.h>
 #include "ft_ls.h"
 
 static void	get_rights(char (*rights)[10], t_stat st)
@@ -38,66 +39,34 @@ static void	get_rights(char (*rights)[10], t_stat st)
 	(*rights)[9] = '\0';
 }
 
-static char	get_type(unsigned char type)
+static char	get_type(mode_t md)
 {
-	if (type == DT_REG)
+	if (S_ISREG(md))
 		return ('-');
-	if (type == DT_DIR)
+	if (S_ISDIR(md))
 		return ('d');
-	if (type == DT_LNK)
+	if (S_ISLNK(md))
 		return ('l');
-	if (type == DT_FIFO)
+	if (S_ISFIFO(md))
 		return ('p');
-	if (type == DT_BLK)
+	if (S_ISBLK(md))
 		return ('b');
-	if (type == DT_CHR)
+	if (S_ISCHR(md))
 		return ('c');
-	if (type == DT_SOCK)
+	if (S_ISSOCK(md))
 		return ('s');
 	return ('?');
 }
 
-static int	get_next_dirent(t_data *data, DIR *dir, char *path, _Bool opt[128])
-{
-	t_dirent	*tmp;
-	int			i;
-
-	i = -1;
-	while (path[++i] != '\0')
-		if (path[i] == '/' && path[i+1] == '\0')
-			path[i] = '\0';
-	data->fullpath = NULL;
-	if (opt['a'])
-		tmp = readdir(dir);
-	else
-	{
-		while (tmp = readdir(dir))
-		{
-			if (tmp->d_name[0] != '.')
-				break ;
-		}
-	}
-	if (tmp == NULL)
-		return (-1);
-	data->name_len = ft_snprintf(data->name, 256, tmp->d_name);
-	data->type = get_type(tmp->d_type);
-	if (ft_smprintf(&data->fullpath, "%s/%s", path, data->name) == -1)
-		return (-1);
-	return (0);
-}
-
-int			get_data(t_data *data, DIR *dir, char *path, _Bool opt[128])
+int			get_data(t_data *data, _Bool opt[128])
 {
 	t_stat		st;
 	t_passwd	*usr;
 	t_group		*grp;
 
-	if (get_next_dirent(data, dir, path, opt))
+	if (lstat(data->fullpath, &st))
 		return (-1);
-	if (!opt['l'] && !opt['t'])
-		return (0);
-	if (stat(data->fullpath, &st))
-		return (-1);
+	data->type = get_type(st.st_mode);
 	data->time_s = st.st_mtim.tv_sec;
 	if (!opt['l'])
 		return (0);
@@ -113,4 +82,28 @@ int			get_data(t_data *data, DIR *dir, char *path, _Bool opt[128])
 	data->blocks = st.st_blocks;
 	ft_snprintf(data->time, 13, ctime(&st.st_mtim.tv_sec) + 4);
 	return (0);
+}
+
+int			get_next_dirent(t_data *data, DIR *dir, char *path, _Bool opt[128])
+{
+	t_dirent	*tmp;
+	int			i;
+
+	i = -1;
+	while (path[++i] != '\0')
+		if (path[i] == '/' && path[i+1] == '\0')
+			path[i] = '\0';
+	data->fullpath = NULL;
+	if (opt['a'])
+		tmp = readdir(dir);
+	else
+		while (tmp = readdir(dir))
+			if (tmp->d_name[0] != '.')
+				break ;
+	if (tmp == NULL)
+		return (-1);
+	data->name_len = ft_snprintf(data->name, 256, tmp->d_name);
+	if (ft_smprintf(&data->fullpath, "%s/%s", path, data->name) == -1)
+		return (-1);
+	return (get_data(data, opt));
 }

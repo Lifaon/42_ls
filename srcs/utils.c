@@ -6,18 +6,17 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/07 12:18:39 by meriadec          #+#    #+#             */
-/*   Updated: 2019/05/22 10:02:36 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/06/11 19:27:43 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <errno.h>
 #include "ft_ls.h"
 
 void	*ft_malloc(unsigned long long size)
 {
-	int errno;
 	void *ptr;
 
-	errno = 0;
 	ptr = malloc(size);
 	if (ptr == NULL)
 	{
@@ -30,9 +29,7 @@ void	*ft_malloc(unsigned long long size)
 DIR		*ft_opendir(const char *path)
 {
 	DIR	*ret;
-	int	errno;
 
-	errno = 0;
 	ret = opendir(path);
 	if (ret == NULL)
 	{
@@ -45,9 +42,7 @@ DIR		*ft_opendir(const char *path)
 int		ft_closedir(DIR *dir)
 {
 	int ret;
-	int	errno;
 
-	errno = 0;
 	ret = closedir(dir);
 	if (ret)
 		ft_dprintf(2, "Error closing DIR *stream: %s\n", strerror(errno));

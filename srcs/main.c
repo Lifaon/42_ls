@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 17:02:07 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/04/10 16:46:44 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/06/11 14:55:31 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,6 @@ int			main(int ac, char **av)
 	if (!args)
 		return (ft_readdir(".", opt));
 	else
-		while (++i < ac)
-			if (av[i][0] != '-' || av[i][1] == '\0')
-			{
-				if (!opt['R'] && args > 1)
-					ft_printf("%s:\n", av[i]);
-				if (ft_readdir(av[i], opt))
-					return (1);
-			}
+		ft_readargs(ac, av, args, opt);
 	return (0);
 }

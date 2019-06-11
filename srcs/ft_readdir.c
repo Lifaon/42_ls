@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/07 12:30:28 by meriadec          #+#    #+#             */
-/*   Updated: 2019/05/16 23:01:13 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/06/11 17:17:40 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	sort_contents(t_env *env, DIR *dir)
 	i = 0;
 	while (i < env->size)
 	{
-		if (get_data(&tmp, dir, env->path, env->opt))
+		if (get_next_dirent(&tmp, dir, env->path, env->opt))
 		{
 			env->size--;
 			continue ;
@@ -61,27 +61,6 @@ static void	sort_contents(t_env *env, DIR *dir)
 		if (j == -1)
 			env->contents[0] = tmp;
 	}
-}
-
-static void read_subcontents(t_env *env)
-{
-	t_data	*contents;
-	int		i;
-
-	contents = env->contents;
-	i = -1;
-	if (env->opt['R'])
-		while (++i < env->size)
-		{
-			if (contents[i].name[0] == '.' && (contents[i].name[1] == '\0' \
-				|| (contents[i].name[1] == '.' && contents[i].name[2] == '\0')))
-				continue ;
-			if (contents[i].type == 'd')
-			{
-				ft_printf("\n");
-				ft_readdir(contents[i].fullpath, env->opt);
-			}
-		}
 }
 
 static int	free_contents(t_env *env, int ret)
@@ -107,15 +86,14 @@ static int	init_env(t_env *env, char *path, _Bool opt[128])
 	t_dirent	*dirent;
 	int			i;
 
-	if (opt['R'])
-		ft_printf("%s:\n", path);
 	env->path = path;
+	env->size = 0;
+	env->printed = 0;
 	i = -1;
 	while (++i < 128)
 		env->opt[i] = opt[i];
 	if (!(dir = ft_opendir(path)))
 		return (1);
-	env->size = 0;
 	while ((dirent = readdir(dir)))
 		if (opt['a'] || dirent->d_name[0] != '.')
 			++env->size;

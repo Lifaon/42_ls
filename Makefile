@@ -6,7 +6,7 @@
 #    By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/21 22:00:00 by mlantonn          #+#    #+#              #
-#    Updated: 2019/04/11 14:46:30 by mlantonn         ###   ########.fr        #
+#    Updated: 2019/06/11 15:51:05 by mlantonn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,15 +34,17 @@ LIB_FT_PRINTF = -L $(DIR_FT_PRINTF) -lftprintf
 
 OBJS = $(SRCS:.c=.o)
 OBJS_DIR = ./objs
-OBJS_SUB_DIRS = 
+OBJS_SUB_DIRS =
 OBJS_PRE = $(addprefix $(OBJS_DIR)/, $(OBJS))
 
 SRCS_DIR = srcs
 SRCS =	main.c \
+		ft_readargs.c \
 		ft_readdir.c \
 		get_data.c \
 		print_contents.c \
 		print_formatted.c \
+		read_subcontents.c \
 		utils.c
 
 .PHONY = all $(OBJS_DIR) $(NAME) clean fclean re

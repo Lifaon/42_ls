@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 12:04:19 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/04/11 19:19:07 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/06/11 17:19:01 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,14 @@ static int	get_lines_len(t_env *env, int lines)
 		tmp = 0;
 		while (++j < cols)
 		{
-			if ((j * lines) + i < env->size)
+			if (((j * lines) + i < env->size) && (!env->opt['P']
+					|| (env->contents[(j * lines) + i].type != 'd'
+						&& env->contents[(j * lines) + i].type != 'l')))
 				tmp += env->contents[(j * lines) + i].name_len + 2;
 		}
 		len = len >= tmp ? len : tmp;
 	}
-	return (len);
+	return (len == 0 ? -1 : len);
 }
 
 static void	set_name_width(t_env *env, int lines)
@@ -69,13 +71,17 @@ static int	get_lines(t_env *env)
 {
 	t_winsize	ws;
 	int			lines;
+	int			len;
 
 	if (ioctl(1, TIOCGWINSZ, &ws))
 		return (0);
 	lines = 1;
 	while (lines < ((env->size) / 2) + 1)
 	{
-		if (get_lines_len(env, lines) < ws.ws_col)
+		len = get_lines_len(env, lines);
+		if (len < 0)
+			return (0);
+		if (len < ws.ws_col)
 		{
 			set_name_width(env, lines);
 			return (lines);
@@ -103,8 +109,12 @@ int			print_formatted(t_env *env)
 		while (++j < cols)
 		{
 			width = j < env->size ? env->contents[j].name_width : 0;
-			if ((j * lines) + i < env->size)
-				ft_printf("%-*s", width, env->contents[(j * lines) + i].name);
+			if (((j * lines) + i >= env->size) || (env->opt['P']
+					&& (env->contents[(j * lines) + i].type == 'd'
+						|| env->contents[(j * lines) + i].type == 'l')))
+				continue ;
+			ft_printf("%-*s", width, env->contents[(j * lines) + i].name);
+			env->printed++;
 		}
 		ft_printf("\n");
 	}
