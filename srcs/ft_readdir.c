@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/07 12:30:28 by meriadec          #+#    #+#             */
-/*   Updated: 2019/06/12 14:12:54 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/06/12 14:33:44 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,19 @@ static int	cmp_contents(t_data content, t_data tmp, _Bool opt[128])
 {
 	int i;
 
-	i = 0;
-	if (!opt['t'])
+	if (opt['t'] && content.time_s != tmp.time_s)
 	{
-		while (content.name[i] && tmp.name[i] \
-			&& content.name[i] == tmp.name[i])
-			++i;
-		if (!opt['r'])
-			return (content.name[i] < tmp.name[i]);
-		return (content.name[i] > tmp.name[i]);
-	}
-	else {
 		if (!opt['r'])
 			return (content.time_s > tmp.time_s);
-		return (content.time_s <= tmp.time_s);
+		return (content.time_s < tmp.time_s);
 	}
-	return (1);
+	i = 0;
+	while (content.name[i] && tmp.name[i]
+		&& content.name[i] == tmp.name[i])
+		++i;
+	if (!opt['r'])
+		return (content.name[i] < tmp.name[i]);
+	return (content.name[i] > tmp.name[i]);
 }
 
 void		sort_contents(t_env *env, t_data tmp, int i)
