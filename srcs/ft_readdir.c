@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/07 12:30:28 by meriadec          #+#    #+#             */
-/*   Updated: 2019/06/12 13:58:20 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/06/12 14:12:54 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,9 @@ static void	set_contents(t_env *env, DIR *dir)
 	while (i < env->size)
 	{
 		if (get_next_dirent(&tmp, dir, env->path, env->opt))
-		{
 			env->size--;
-			continue ;
-		}
-		sort_contents(env, tmp, i++);
+		else
+			sort_contents(env, tmp, i++);
 	}
 }
 
@@ -96,6 +94,8 @@ static int	init_env(t_env *env, char *path, _Bool opt[128])
 	i = -1;
 	while (++i < 128)
 		env->opt[i] = opt[i];
+	if (opt['R'] && opt['P'])
+		env->opt['P'] = 0;
 	if (!(dir = ft_opendir(path)))
 		return (1);
 	while ((dirent = readdir(dir)))

@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 18:24:53 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/06/12 13:47:19 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/06/12 14:13:46 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	init_env(t_env *env, int size, _Bool opt[128])
 	while (++i < 128)
 		env->opt[i] = opt[i];
 	env->opt['R'] = 0;
-	env->opt['P'] = 1;
+	env->opt['P'] = !opt['R'];
 	if (!(env->contents = (t_data *)ft_malloc(sizeof(t_data) * env->size)))
 		return (1);
 	return (0);
@@ -32,21 +32,22 @@ static int	init_env(t_env *env, int size, _Bool opt[128])
 
 static void	get_contents(t_env *env, int ac, char **av, int args)
 {
-	int	i;
-	int	j;
+	t_data	tmp;
+	int		i;
+	int		j;
 
 	i = 0;
 	j = 0;
 	while (++i < ac)
 		if (av[i][0] != '-' || av[i][1] == '\0')
 		{
-			env->contents[j].name_len = ft_snprintf(
-				env->contents[j].name, 256, av[i]);
-			env->contents[j].fullpath = av[i];
-			if (get_data(&env->contents[j], env->opt))
+			tmp.name_len = ft_snprintf(
+				tmp.name, 256, av[i]);
+			tmp.fullpath = av[i];
+			if (get_data(&tmp, env->opt))
 				env->size--;
 			else
-				++j;
+				sort_contents(env, tmp, j++);
 		}
 }
 
