@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 18:24:53 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/06/11 19:27:56 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/06/12 13:47:19 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,12 @@ static int	init_env(t_env *env, int size, _Bool opt[128])
 	int	i;
 
 	env->size = size;
+	env->args = size;
 	env->printed = 0;
 	i = -1;
 	while (++i < 128)
 		env->opt[i] = opt[i];
+	env->opt['R'] = 0;
 	env->opt['P'] = 1;
 	if (!(env->contents = (t_data *)ft_malloc(sizeof(t_data) * env->size)))
 		return (1);
@@ -42,17 +44,13 @@ static void	get_contents(t_env *env, int ac, char **av, int args)
 				env->contents[j].name, 256, av[i]);
 			env->contents[j].fullpath = av[i];
 			if (get_data(&env->contents[j], env->opt))
-			{
-				ft_dprintf(2, "ft_ls: cannot access '%s': %s\n",
-					av[i], strerror(errno));
 				env->size--;
-			}
 			else
 				++j;
 		}
 }
 
-void	ft_readargs(int ac, char **av, int args, _Bool opt[128])
+void		ft_readargs(int ac, char **av, int args, _Bool opt[128])
 {
 	t_env	env;
 	int		i;
@@ -62,6 +60,7 @@ void	ft_readargs(int ac, char **av, int args, _Bool opt[128])
 		return ;
 	get_contents(&env, ac, av, args);
 	print_contents(&env);
+	env.opt['R'] = opt['R'];
 	read_subcontents(&env);
 	free(env.contents);
 }

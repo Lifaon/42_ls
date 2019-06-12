@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/07 12:41:35 by meriadec          #+#    #+#             */
-/*   Updated: 2019/06/11 17:16:06 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/06/12 13:45:57 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct	s_env
 	t_data		*contents;
 	char		*path;
 	int			size;
+	int			args;
 	size_t		printed;
 	_Bool		opt[128];
 }				t_env;

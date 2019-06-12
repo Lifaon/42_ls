@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/07 12:30:28 by meriadec          #+#    #+#             */
-/*   Updated: 2019/06/11 17:17:40 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/06/12 13:58:20 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,25 @@ static int	cmp_contents(t_data content, t_data tmp, _Bool opt[128])
 	return (1);
 }
 
-static void	sort_contents(t_env *env, DIR *dir)
+void		sort_contents(t_env *env, t_data tmp, int i)
+{
+	while (--i >= 0)
+	{
+		if (cmp_contents(env->contents[i], tmp, env->opt))
+		{
+			env->contents[i + 1] = tmp;
+			break ;
+		}
+		env->contents[i + 1] = env->contents[i];
+	}
+	if (i == -1)
+		env->contents[0] = tmp;
+}
+
+static void	set_contents(t_env *env, DIR *dir)
 {
 	t_data	tmp;
 	int		i;
-	int		j;
 
 	i = 0;
 	while (i < env->size)
@@ -48,18 +62,7 @@ static void	sort_contents(t_env *env, DIR *dir)
 			env->size--;
 			continue ;
 		}
-		j = i++;
-		while (--j >= 0)
-		{
-			if (cmp_contents(env->contents[j], tmp, env->opt))
-			{
-				env->contents[j + 1] = tmp;
-				break ;
-			}
-			env->contents[j + 1] = env->contents[j];
-		}
-		if (j == -1)
-			env->contents[0] = tmp;
+		sort_contents(env, tmp, i++);
 	}
 }
 
@@ -88,6 +91,7 @@ static int	init_env(t_env *env, char *path, _Bool opt[128])
 
 	env->path = path;
 	env->size = 0;
+	env->args = 0;
 	env->printed = 0;
 	i = -1;
 	while (++i < 128)
@@ -97,9 +101,10 @@ static int	init_env(t_env *env, char *path, _Bool opt[128])
 	while ((dirent = readdir(dir)))
 		if (opt['a'] || dirent->d_name[0] != '.')
 			++env->size;
+	env->args = env->size;
 	if (ft_closedir(dir))
 		return (1);
-	return (!env->size);
+	return (0);
 }
 
 int			ft_readdir(char *path, _Bool opt[128])
@@ -109,7 +114,7 @@ int			ft_readdir(char *path, _Bool opt[128])
 	int		i;
 
 	if (init_env(&env, path, opt))
-		return (0);
+		return (1);
 	if (!(env.contents = (t_data *)ft_malloc(sizeof(t_data) * env.size)))
 		return (1);
 	i = -1;
@@ -117,7 +122,7 @@ int			ft_readdir(char *path, _Bool opt[128])
 		env.contents[i].fullpath = NULL;
 	if (!(dir = ft_opendir(env.path)))
 		return (free_contents(&env, 1));
-	sort_contents(&env, dir);
+	set_contents(&env, dir);
 	if (ft_closedir(dir))
 		return (free_contents(&env, 1));
 	print_contents(&env);

@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 18:21:44 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/06/12 10:38:13 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/06/12 13:38:58 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,33 @@ static char	get_type(mode_t md)
 	return ('?');
 }
 
+static int	get_owners(t_data *data, t_stat st)
+{
+	t_passwd	*usr;
+	t_group		*grp;
+
+	usr = getpwuid(st.st_uid);
+	if (!usr)
+	{
+		ft_dprintf(2, "ft_ls: cannot get owner from '%s': %s",
+			data->fullpath, strerror(errno));
+		return (-1);
+	}
+	grp = getgrgid(st.st_gid);
+	if (!grp)
+	{
+		ft_dprintf(2, "ft_ls: cannot get group from '%s': %s",
+			data->fullpath, strerror(errno));
+		return (-1);
+	}
+	ft_snprintf(data->usr_name, 256, usr->pw_name);
+	ft_snprintf(data->grp_name, 256, grp->gr_name);
+	return (0);
+}
+
 static void	get_time(t_data *data, time_t s_file)
 {
-	time_t s_now;
+	time_t	s_now;
 	char	buff[25];
 
 	ft_snprintf(buff, 25, ctime(&s_file));
@@ -76,24 +100,22 @@ static void	get_time(t_data *data, time_t s_file)
 
 int			get_data(t_data *data, _Bool opt[128])
 {
-	t_stat		st;
-	t_passwd	*usr;
-	t_group		*grp;
+	t_stat	st;
 
 	if (lstat(data->fullpath, &st))
+	{
+		ft_dprintf(2, "ft_ls: cannot access '%s': %s\n",
+			data->fullpath, strerror(errno));
 		return (-1);
+	}
 	data->type = get_type(st.st_mode);
 	data->time_s = st.st_mtim.tv_sec;
 	if (!opt['l'])
 		return (0);
 	get_rights(&data->rights, st);
 	data->links = st.st_nlink;
-	usr = getpwuid(st.st_uid);
-	grp = getgrgid(st.st_gid);
-	if (!usr || !grp)
+	if (get_owners(data, st))
 		return (-1);
-	ft_snprintf(data->usr_name, 256, usr->pw_name);
-	ft_snprintf(data->grp_name, 256, grp->gr_name);
 	data->size = st.st_size;
 	data->blocks = st.st_blocks;
 	get_time(data, st.st_mtim.tv_sec);

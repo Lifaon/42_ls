@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 15:43:00 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/06/11 19:37:29 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/06/12 13:56:41 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,15 @@ static void	read_subcontent(t_data content, t_env *env, _Bool p)
 	if (content.name[0] == '.' && (content.name[1] == '\0'
 			|| (content.name[1] == '.' && content.name[2] == '\0')))
 		return ;
-	if (content.type == 'd' || (content.type == 'l' && p))
+	if (content.type == 'd' || content.type == 'l')
 	{
-		if (sub > 0 || env->printed > 0)
-			ft_printf("\n");
-		if (sub > 0 || env->size > 1)
-			ft_printf("%s:\n", content.fullpath);
+		if (p)
+		{
+			if (sub > 0 || env->printed > 0)
+				ft_printf("\n");
+			if (sub > 0 || env->args > 1)
+				ft_printf("%s:\n", content.fullpath);
+		}
 		ft_readdir(content.fullpath, env->opt);
 		++sub;
 	}
