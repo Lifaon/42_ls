@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/07 12:18:39 by meriadec          #+#    #+#             */
-/*   Updated: 2019/06/11 19:27:43 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/06/12 10:40:45 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,7 @@ void	*ft_malloc(unsigned long long size)
 
 	ptr = malloc(size);
 	if (ptr == NULL)
-	{
-		ft_dprintf(2, "Malloc error: %s\n", strerror(errno));
-		return (NULL);
-	}
+		ft_dprintf(2, "ft_ls: malloc error: %s\n", strerror(errno));
 	return (ptr);
 }
 
@@ -32,10 +29,8 @@ DIR		*ft_opendir(const char *path)
 
 	ret = opendir(path);
 	if (ret == NULL)
-	{
-		ft_dprintf(2, "Error opening '%s': %s\n", path, strerror(errno));
-		return (NULL);
-	}
+		ft_dprintf(2, "ft_ls: cannot open directory '%s': %s\n",
+			path, strerror(errno));
 	return (ret);
 }
 
@@ -45,7 +40,7 @@ int		ft_closedir(DIR *dir)
 
 	ret = closedir(dir);
 	if (ret)
-		ft_dprintf(2, "Error closing DIR *stream: %s\n", strerror(errno));
+		ft_dprintf(2, "ft_ls: cannot close directory: %s\n", strerror(errno));
 	return (ret);
 }
 

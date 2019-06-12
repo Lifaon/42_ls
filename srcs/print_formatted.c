@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 12:04:19 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/06/11 17:19:01 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/06/12 09:46:30 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ int			print_formatted(t_env *env)
 {
 	int lines;
 	int cols;
-	int width;
 	int i;
 	int j;
 
@@ -108,12 +107,12 @@ int			print_formatted(t_env *env)
 		j = -1;
 		while (++j < cols)
 		{
-			width = j < env->size ? env->contents[j].name_width : 0;
 			if (((j * lines) + i >= env->size) || (env->opt['P']
 					&& (env->contents[(j * lines) + i].type == 'd'
 						|| env->contents[(j * lines) + i].type == 'l')))
 				continue ;
-			ft_printf("%-*s", width, env->contents[(j * lines) + i].name);
+			ft_printf("%-*s", j < env->size ? env->contents[j].name_width : 0,
+				env->contents[(j * lines) + i].name);
 			env->printed++;
 		}
 		ft_printf("\n");

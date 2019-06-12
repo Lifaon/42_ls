@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 18:21:44 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/06/11 19:28:26 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/06/12 10:38:13 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,22 @@ static char	get_type(mode_t md)
 	return ('?');
 }
 
+static void	get_time(t_data *data, time_t s_file)
+{
+	time_t s_now;
+	char	buff[25];
+
+	ft_snprintf(buff, 25, ctime(&s_file));
+	s_now = time(NULL);
+	if (s_now - s_file < SIX_MONTHS)
+		ft_snprintf(data->time, 13, buff + 4);
+	else
+	{
+		ft_snprintf(data->time, 8, buff + 4);
+		ft_snprintf(data->time + 7, 6, buff + 19);
+	}
+}
+
 int			get_data(t_data *data, _Bool opt[128])
 {
 	t_stat		st;
@@ -80,7 +96,7 @@ int			get_data(t_data *data, _Bool opt[128])
 	ft_snprintf(data->grp_name, 256, grp->gr_name);
 	data->size = st.st_size;
 	data->blocks = st.st_blocks;
-	ft_snprintf(data->time, 13, ctime(&st.st_mtim.tv_sec) + 4);
+	get_time(data, st.st_mtim.tv_sec);
 	return (0);
 }
 

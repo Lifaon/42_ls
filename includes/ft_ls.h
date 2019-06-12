@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 17:01:30 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/06/11 15:23:56 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/06/12 10:26:50 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 
 # include "ft_printf.h"
 # include "structs.h"
+
+# define SIX_MONTHS 15778800
 
 void	ft_readargs(int ac, char **av, int args, _Bool opt[128]);
 int		ft_readdir(char *path, _Bool opt[128]);
