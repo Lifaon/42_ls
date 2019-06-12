@@ -6,11 +6,21 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 17:02:07 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/06/11 14:55:31 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/06/12 14:56:28 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+
+static int	is_illegal_option(char c)
+{
+	if (c == 'P' || c == 'R' || c == 'U' || c == 'a' || c == 'g' || c == 'l'
+		|| c == 'r' || c == 't' || c == '1')
+		return (0);
+	ft_dprintf(2, "ft_ls: illegal option -- '%c'\n", c);
+	ft_dprintf(2, "usage: ft_ls [-PRUaglrt1] [file...]\n");
+	return (1);
+}
 
 static int	get_options(int ac, char **av, _Bool (*opt)[128])
 {
@@ -25,16 +35,15 @@ static int	get_options(int ac, char **av, _Bool (*opt)[128])
 	i = 0;
 	while (++i < ac)
 	{
-		j = -1;
+		j = 0;
 		if (av[i][0] != '-' || av[i][1] == '\0')
 			++args;
 		else
 			while (av[i][++j])
 			{
-				if (av[i][j] >= 0 && av[i][j] <= 128)
-					(*opt)[av[i][j]] = 1;
-				else
+				if (is_illegal_option(av[i][j]))
 					return (-1);
+				(*opt)[av[i][j]] = 1;
 			}
 	}
 	return (args);
@@ -49,10 +58,7 @@ int			main(int ac, char **av)
 	i = 0;
 	args = get_options(ac, av, &opt);
 	if (args < 0)
-	{
-		ft_dprintf(2, "%s: invalid option.\n", av[0]);
 		return (-1);
-	}
 	if (!args)
 		return (ft_readdir(".", opt));
 	else

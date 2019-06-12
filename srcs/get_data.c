@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 18:21:44 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/06/12 13:38:58 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/06/12 15:01:35 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,18 +58,24 @@ static char	get_type(mode_t md)
 	return ('?');
 }
 
-static int	get_owners(t_data *data, t_stat st)
+static int	get_owners(t_data *data, t_stat st, _Bool opt[128])
 {
 	t_passwd	*usr;
 	t_group		*grp;
 
-	usr = getpwuid(st.st_uid);
-	if (!usr)
+	if (!opt['g'])
 	{
-		ft_dprintf(2, "ft_ls: cannot get owner from '%s': %s",
-			data->fullpath, strerror(errno));
-		return (-1);
+		usr = getpwuid(st.st_uid);
+		if (!usr)
+		{
+			ft_dprintf(2, "ft_ls: cannot get owner from '%s': %s",
+				data->fullpath, strerror(errno));
+			return (-1);
+		}
+		ft_snprintf(data->usr_name, 256, usr->pw_name);
 	}
+	else
+		data->usr_name[0] = '\0';
 	grp = getgrgid(st.st_gid);
 	if (!grp)
 	{
@@ -77,7 +83,6 @@ static int	get_owners(t_data *data, t_stat st)
 			data->fullpath, strerror(errno));
 		return (-1);
 	}
-	ft_snprintf(data->usr_name, 256, usr->pw_name);
 	ft_snprintf(data->grp_name, 256, grp->gr_name);
 	return (0);
 }
@@ -110,11 +115,13 @@ int			get_data(t_data *data, _Bool opt[128])
 	}
 	data->type = get_type(st.st_mode);
 	data->time_s = st.st_mtim.tv_sec;
-	if (!opt['l'])
+	if (!opt['l'] && !opt['g'])
 		return (0);
 	get_rights(&data->rights, st);
 	data->links = st.st_nlink;
-	if (get_owners(data, st))
+	data->usr_name[0] = '\0';
+	data->grp_name[0] = '\0';
+	if (get_owners(data, st, opt))
 		return (-1);
 	data->size = st.st_size;
 	data->blocks = st.st_blocks;
