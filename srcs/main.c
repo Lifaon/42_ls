@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 17:02:07 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/06/12 14:56:28 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/06/12 15:26:40 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 static int	is_illegal_option(char c)
 {
-	if (c == 'P' || c == 'R' || c == 'U' || c == 'a' || c == 'g' || c == 'l'
-		|| c == 'r' || c == 't' || c == '1')
+	if (c == 'P' || c == 'R' || c == 'U' || c == 'a' || c == 'f' || c == 'g'
+		|| c == 'l' || c == 'r' || c == 't' || c == '1')
 		return (0);
 	ft_dprintf(2, "ft_ls: illegal option -- '%c'\n", c);
-	ft_dprintf(2, "usage: ft_ls [-PRUaglrt1] [file...]\n");
+	ft_dprintf(2, "usage: ft_ls [-PRUafglrt1] [file...]\n");
 	return (1);
 }
 
