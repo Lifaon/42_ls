@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 18:21:44 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/06/12 15:27:45 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/06/12 15:32:56 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int			get_data(t_data *data, _Bool opt[128])
 	}
 	data->type = get_type(st.st_mode);
 	data->time_s = st.st_mtim.tv_sec;
-	if (!opt['l'] && !opt['g'])
+	if (!opt['l'])
 		return (0);
 	get_rights(&data->rights, st);
 	data->links = st.st_nlink;
@@ -139,7 +139,7 @@ int			get_next_dirent(t_data *data, DIR *dir, char *path, _Bool opt[128])
 		if (path[i] == '/' && path[i+1] == '\0')
 			path[i] = '\0';
 	data->fullpath = NULL;
-	if (opt['a'] || opt['f'])
+	if (opt['a'])
 		tmp = readdir(dir);
 	else
 		while (tmp = readdir(dir))

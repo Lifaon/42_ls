@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 17:02:07 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/06/12 15:26:40 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/06/12 17:21:05 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,17 @@ static int	is_illegal_option(char c)
 	ft_dprintf(2, "ft_ls: illegal option -- '%c'\n", c);
 	ft_dprintf(2, "usage: ft_ls [-PRUafglrt1] [file...]\n");
 	return (1);
+}
+
+static void	set_options(_Bool (*opt)[128])
+{
+	if ((*opt)['f'])
+	{
+		(*opt)['a'] = 1;
+		(*opt)['U'] = 1;
+	}
+	if ((*opt)['g'])
+		(*opt)['l'] = 1;
 }
 
 static int	get_options(int ac, char **av, _Bool (*opt)[128])
@@ -46,6 +57,7 @@ static int	get_options(int ac, char **av, _Bool (*opt)[128])
 				(*opt)[av[i][j]] = 1;
 			}
 	}
+	set_options(opt);
 	return (args);
 }
 

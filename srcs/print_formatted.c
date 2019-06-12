@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 12:04:19 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/06/12 09:46:30 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/06/12 19:19:29 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,11 +111,11 @@ int			print_formatted(t_env *env)
 					&& (env->contents[(j * lines) + i].type == 'd'
 						|| env->contents[(j * lines) + i].type == 'l')))
 				continue ;
-			ft_printf("%-*s", j < env->size ? env->contents[j].name_width : 0,
+			ft_printf_static("%-*s", j < env->size ? env->contents[j].name_width : 0,
 				env->contents[(j * lines) + i].name);
 			env->printed++;
 		}
-		ft_printf("\n");
+		ft_printf_static("\n");
 	}
 	return (0);
 }

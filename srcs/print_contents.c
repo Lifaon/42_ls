@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 14:23:19 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/06/12 15:02:20 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/06/12 19:19:29 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void print_one_line(t_data content, int sizes[4])
 		ft_sprintf(link, " -> ");
 		link[4 + readlink(content.fullpath, link + 4, 256)] = '\0';
 	}
-	ft_printf("%c%s %*ld % -*s% -*s %*ld %s %s%s\n", \
+	ft_printf_static("%c%s %*ld % -*s% -*s %*ld %s %s%s\n", \
 			content.type, content.rights, \
 			sizes[0], content.links, \
 			sizes[1], content.usr_name, \
@@ -65,7 +65,7 @@ static void	print_details(t_env *env)
 		i = -1;
 		while (++i < env->size)
 			blocks += env->contents[i].blocks;
-		ft_printf("total %d\n", blocks);
+		ft_printf_static("total %d\n", blocks);
 	}
 	get_sizes(&sizes, env);
 	i = -1;
@@ -87,8 +87,8 @@ void		print_contents(t_env *env)
 	if (env->opt['R'])
 	{
 		if (sub++ > 0 || env->printed > 0)
-			ft_printf("\n");
-		ft_printf("%s:\n", env->path);
+			ft_printf_static("\n");
+		ft_printf_static("%s:\n", env->path);
 	}
 	if (!env->opt['l'] && !env->opt['g'])
 	{
@@ -100,7 +100,7 @@ void		print_contents(t_env *env)
 						&& env->contents[i].type != 'l'))
 				{
 					env->printed++;
-					ft_printf("%s\n", env->contents[i].name);
+					ft_printf_static("%s\n", env->contents[i].name);
 				}
 			}
 	}

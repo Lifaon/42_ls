@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/07 12:30:28 by meriadec          #+#    #+#             */
-/*   Updated: 2019/06/12 15:30:32 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/06/12 15:32:30 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	cmp_contents(t_data content, t_data tmp, _Bool opt[128])
 
 void		sort_contents(t_env *env, t_data tmp, int i)
 {
-	if (env->opt['U'] || env->opt['f'])
+	if (env->opt['U'])
 	{
 		env->contents[i] = tmp;
 		return ;
@@ -101,7 +101,7 @@ static int	init_env(t_env *env, char *path, _Bool opt[128])
 	if (!(dir = ft_opendir(path)))
 		return (1);
 	while ((dirent = readdir(dir)))
-		if (opt['a'] || opt['f'] || dirent->d_name[0] != '.')
+		if (opt['a'] || dirent->d_name[0] != '.')
 			++env->size;
 	env->args = env->size;
 	if (ft_closedir(dir))
