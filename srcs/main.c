@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 17:02:07 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/06/12 17:21:05 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/06/12 19:53:16 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,7 @@ int			main(int ac, char **av)
 {
 	_Bool	opt[128];
 	int		args;
-	int		i;
 
-	i = 0;
 	args = get_options(ac, av, &opt);
 	if (args < 0)
 		return (-1);

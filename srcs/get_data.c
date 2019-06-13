@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 18:21:44 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/06/12 15:32:56 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/06/13 09:34:43 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,5 +150,10 @@ int			get_next_dirent(t_data *data, DIR *dir, char *path, _Bool opt[128])
 	data->name_len = ft_snprintf(data->name, 256, tmp->d_name);
 	if (ft_smprintf(&data->fullpath, "%s/%s", path, data->name) == -1)
 		return (-1);
-	return (get_data(data, opt));
+	if (get_data(data, opt))
+	{
+		free(data->fullpath);
+		return (-1);
+	}
+	return (0);
 }
