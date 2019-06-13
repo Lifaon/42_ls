@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 14:23:19 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/06/13 16:04:20 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/06/13 17:02:52 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void get_sizes(int (*sizes)[4], t_env *env)
 	{
 		tmp = ft_uintsize(env->contents[i].links);
 		(*sizes)[0] = ((*sizes)[0] >= tmp) ? (*sizes)[0] : tmp;
-		tmp = ft_shortstrlen(env->contents[i].usr_name);
+		tmp = ft_shortstrlen(env->contents[i].usr_name) + !env->opt['g'];
 		(*sizes)[1] = ((*sizes)[1] >= tmp) ? (*sizes)[1] : tmp;
 		tmp = ft_shortstrlen(env->contents[i].grp_name);
 		(*sizes)[2] = ((*sizes)[2] >= tmp) ? (*sizes)[2] : tmp;
@@ -44,7 +44,7 @@ static void print_one_line(t_data content, int sizes[4])
 		ft_sprintf(link, " -> ");
 		link[4 + readlink(content.fullpath, link + 4, 256)] = '\0';
 	}
-	ft_printf_static("%c%s %*ld % -*s% -*s %*ld %s %s%s\n", \
+	ft_printf_static("%c%s %*ld %-*s%-*s %*ld %s %s%s\n", \
 			content.type, content.rights, \
 			sizes[0], content.links, \
 			sizes[1], content.usr_name, \
