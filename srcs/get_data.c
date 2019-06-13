@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 18:21:44 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/06/13 09:34:43 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/06/13 18:34:19 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static char	get_type(mode_t md)
 	return ('?');
 }
 
-static int	get_owners(t_data *data, t_stat st, _Bool opt[128])
+static void	get_owners(t_data *data, t_stat st, _Bool opt[128])
 {
 	t_passwd	*usr;
 	t_group		*grp;
@@ -66,25 +66,18 @@ static int	get_owners(t_data *data, t_stat st, _Bool opt[128])
 	if (!opt['g'])
 	{
 		usr = getpwuid(st.st_uid);
-		if (!usr)
-		{
-			ft_dprintf(2, "ft_ls: cannot get owner from '%s': %s",
-				data->fullpath, strerror(errno));
-			return (-1);
-		}
-		ft_snprintf(data->usr_name, 256, usr->pw_name);
+		if (usr)
+			ft_snprintf(data->usr_name, 256, usr->pw_name);
+		else
+			ft_snprintf(data->usr_name, 256, "%u", st.st_uid);
 	}
 	else
 		data->usr_name[0] = '\0';
 	grp = getgrgid(st.st_gid);
 	if (!grp)
-	{
-		ft_dprintf(2, "ft_ls: cannot get group from '%s': %s",
-			data->fullpath, strerror(errno));
-		return (-1);
-	}
-	ft_snprintf(data->grp_name, 256, grp->gr_name);
-	return (0);
+		ft_snprintf(data->grp_name, 256, grp->gr_name);
+	else
+		ft_snprintf(data->grp_name, 256, "%u", st.st_gid);
 }
 
 static void	get_time(t_data *data, time_t s_file)
@@ -121,8 +114,7 @@ int			get_data(t_data *data, _Bool opt[128])
 	data->links = st.st_nlink;
 	data->usr_name[0] = '\0';
 	data->grp_name[0] = '\0';
-	if (get_owners(data, st, opt))
-		return (-1);
+	get_owners(data, st, opt);
 	data->size = st.st_size;
 	data->blocks = st.st_blocks;
 	get_time(data, st.st_mtim.tv_sec);

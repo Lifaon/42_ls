@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 18:24:53 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/06/13 16:14:34 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/06/13 17:54:13 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static int	init_env(t_env *env, int size, _Bool opt[128])
 {
 	int	i;
 
+	env->path = NULL;
 	env->size = size;
 	env->args = size;
 	env->printed = 0;
