@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 17:01:30 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/06/12 11:32:26 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/06/13 14:55:48 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 
 void	ft_readargs(int ac, char **av, int args, _Bool opt[128]);
 int		ft_readdir(char *path, _Bool opt[128]);
-void	sort_contents(t_env *env, t_data tmp, int i);
+void	sort_contents(t_env *env);
 void	read_subcontents(t_env *env);
 int		get_next_dirent(t_data *data, DIR *dir, char *path, _Bool opt[128]);
 int		get_data(t_data *data, _Bool opt[128]);

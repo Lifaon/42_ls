@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/07 12:30:28 by meriadec          #+#    #+#             */
-/*   Updated: 2019/06/13 10:19:07 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/06/13 14:55:16 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 
 static void	set_contents(t_env *env, DIR *dir)
 {
-	t_data	tmp;
-	int		i;
+	int	i;
 
 	i = 0;
 	while (i < env->size)
 	{
-		if (get_next_dirent(&tmp, dir, env->path, env->opt))
+		if (get_next_dirent(&env->contents[i], dir, env->path, env->opt))
 			env->size--;
 		else
-			sort_contents(env, tmp, i++);
+			++i;
 	}
+	sort_contents(env);
 }
 
 static int	free_contents(t_env *env, int ret)

@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 15:43:00 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/06/12 19:24:38 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/06/13 16:01:47 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ static void	read_subcontent(t_data content, t_env *env, _Bool p)
 {
 	static int	sub = 0;
 
-	if (content.name[0] == '.' && (content.name[1] == '\0'
-			|| (content.name[1] == '.' && content.name[2] == '\0')))
+	if (env->path && (content.name[0] == '.' && (content.name[1] == '\0'
+				|| (content.name[1] == '.' && content.name[2] == '\0'))))
 		return ;
 	if (content.type == 'd' || (content.type == 'l' && p))
 	{
