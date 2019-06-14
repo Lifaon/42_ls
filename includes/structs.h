@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/07 12:41:35 by meriadec          #+#    #+#             */
-/*   Updated: 2019/06/12 13:45:57 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/06/14 11:46:50 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef struct winsize t_winsize;
 typedef struct	s_data
 {
 	char		type;
-	char		rights[10];
+	char		rights[11];
 	long int	links;
 	char		usr_name[256];
 	char		grp_name[256];
