@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 18:21:44 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/06/13 18:34:19 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/06/13 18:56:45 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static void	get_owners(t_data *data, t_stat st, _Bool opt[128])
 	else
 		data->usr_name[0] = '\0';
 	grp = getgrgid(st.st_gid);
-	if (!grp)
+	if (grp)
 		ft_snprintf(data->grp_name, 256, grp->gr_name);
 	else
 		ft_snprintf(data->grp_name, 256, "%u", st.st_gid);
