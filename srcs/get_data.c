@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 18:21:44 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/06/14 12:00:27 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/06/17 15:01:04 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ int			get_data(t_data *data, _Bool opt[128])
 
 	if (lstat(data->fullpath, &st))
 	{
-		ft_dprintf(2, "ft_ls: cannot access '%s': %s\n",
+		ft_printf_static("ft_ls: cannot access '%s': %s\n",
 			data->fullpath, strerror(errno));
 		return (-1);
 	}
