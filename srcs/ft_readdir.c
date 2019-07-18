@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_readdir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: meriadec <meriadec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/07 12:30:28 by meriadec          #+#    #+#             */
-/*   Updated: 2019/06/14 11:38:26 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/07/18 11:31:37 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	get_next_dirent(t_data *data, DIR *dir, char *path, _Bool opt[128])
 	if (opt['a'])
 		tmp = readdir(dir);
 	else
-		while (tmp = readdir(dir))
+		while ((tmp = readdir(dir)))
 			if (tmp->d_name[0] != '.')
 				break ;
 	if (tmp == NULL)

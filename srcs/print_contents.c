@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 14:23:19 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/06/14 11:52:31 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/07/18 13:25:04 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,12 @@ static void print_one_line(t_data content, int sizes[5])
 		ft_sprintf(link, " -> ");
 		link[4 + readlink(content.fullpath, link + 4, 256)] = '\0';
 	}
-	ft_printf_static("%c%-*s %*ld %-*s%-*s %*ld %s %s%s\n", \
-			content.type, sizes[0], content.rights, \
-			sizes[1], content.links, \
-			sizes[2], content.usr_name, \
-			sizes[3], content.grp_name, \
-			sizes[4], content.size, \
-			content.time, content.name, link);
+	ft_printf_static("%c%-*s", content.type, sizes[0], content.rights);
+	ft_printf_static(" %*ld", sizes[1], content.links);
+	ft_printf_static(" %-*s", sizes[2], content.usr_name);
+	ft_printf_static("%-*s", sizes[3], content.grp_name);
+	ft_printf_static(" %*ld", sizes[4], content.size);
+	ft_printf_static(" %s %s%s\n", content.time, content.name, link);
 }
 
 static void	print_details(t_env *env)

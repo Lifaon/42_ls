@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 18:21:44 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/06/17 15:01:04 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/07/18 11:43:08 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	get_attr(char (*rights)[11], char *path)
 	int		ret;
 	int		i;
 
-	ret = listxattr(path, ptr, 4096);
+	ret = listxattr(path, ptr, 4096, XATTR_NOFOLLOW);
 	if (!ret)
 		return ;
 	(*rights)[10] = '\0';
@@ -132,7 +132,7 @@ int			get_data(t_data *data, _Bool opt[128])
 		return (-1);
 	}
 	data->type = get_type(st.st_mode);
-	data->time_s = st.st_mtim.tv_sec;
+	data->time_s = st.st_mtime;
 	if (!opt['l'])
 		return (0);
 	get_rights(&data->rights, st);
@@ -143,6 +143,6 @@ int			get_data(t_data *data, _Bool opt[128])
 	get_owners(data, st, opt);
 	data->size = st.st_size;
 	data->blocks = st.st_blocks;
-	get_time(data, st.st_mtim.tv_sec);
+	get_time(data, st.st_mtime);
 	return (0);
 }
