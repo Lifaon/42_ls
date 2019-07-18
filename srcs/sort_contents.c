@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 10:19:11 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/06/13 15:06:39 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/07/18 18:21:06 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,12 @@ static void	quick_sort(t_data *contents, int low, int high, _Bool opt[128])
 {
 	int p;
 
-    if (low < high) {
-        p = partition(contents, low, high, opt);
-        quick_sort(contents, low, p - 1, opt);
-        quick_sort(contents, p + 1, high, opt);
-    }
+	if (low < high)
+	{
+		p = partition(contents, low, high, opt);
+		quick_sort(contents, low, p - 1, opt);
+		quick_sort(contents, p + 1, high, opt);
+	}
 }
 
 static void	insertion_sort(t_env *env)

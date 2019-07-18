@@ -6,7 +6,7 @@
 /*   By: meriadec <meriadec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/07 12:30:28 by meriadec          #+#    #+#             */
-/*   Updated: 2019/07/18 11:31:37 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/07/18 18:13:36 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	get_next_dirent(t_data *data, DIR *dir, char *path, _Bool opt[128])
 
 	i = -1;
 	while (path[++i] != '\0')
-		if (path[i] == '/' && path[i+1] == '\0')
+		if (path[i] == '/' && path[i + 1] == '\0')
 			path[i] = '\0';
 	data->fullpath = NULL;
 	if (opt['a'])

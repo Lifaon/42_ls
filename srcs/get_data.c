@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 18:21:44 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/07/18 11:43:08 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/07/18 18:18:55 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,20 @@ static void	get_attr(char (*rights)[11], char *path)
 	ret = listxattr(path, ptr, 4096, XATTR_NOFOLLOW);
 	if (!ret)
 		return ;
-	(*rights)[10] = '\0';
 	i = -1;
-	while (++i < ret) {
+	while (++i < ret)
+	{
 		// TODO: change strstr to ft_strstr
 		if (!strstr(ptr + i, "posix_acl_access"))
 		{
 			(*rights)[9] = '@';
+			(*rights)[10] = '\0';
 			return ;
 		}
 		while (ptr[i])
 			++i;
 	}
-	(*rights)[9] = '+';
+	// TODO: retrieve '+' attributes
 }
 
 static void	get_rights(char (*rights)[11], t_stat st)

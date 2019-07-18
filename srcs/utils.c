@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: meriadec <meriadec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/07 12:18:39 by meriadec          #+#    #+#             */
-/*   Updated: 2019/06/13 15:22:18 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/07/18 18:21:20 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ int		ft_closedir(DIR *dir)
 
 	ret = closedir(dir);
 	if (ret)
-		ft_printf_static("ft_ls: cannot close directory: %s\n", strerror(errno));
+		ft_printf_static("ft_ls: cannot close directory: %s\n",
+			strerror(errno));
 	return (ret);
 }
 

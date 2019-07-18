@@ -6,13 +6,13 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 14:23:19 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/07/18 13:25:04 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/07/18 18:20:48 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static void get_sizes(int (*sizes)[5], t_env *env)
+static void	get_sizes(int (*sizes)[5], t_env *env)
 {
 	int	tmp;
 	int	i;
@@ -36,7 +36,7 @@ static void get_sizes(int (*sizes)[5], t_env *env)
 	}
 }
 
-static void print_one_line(t_data content, int sizes[5])
+static void	print_one_line(t_data content, int sizes[5])
 {
 	char link[261];
 
