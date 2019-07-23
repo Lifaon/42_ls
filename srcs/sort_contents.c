@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 10:19:11 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/07/18 18:21:06 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/07/23 17:19:41 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,30 +68,9 @@ static void	quick_sort(t_data *contents, int low, int high, _Bool opt[128])
 	}
 }
 
-static void	insertion_sort(t_env *env)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (++i < env->size)
-	{
-		j = i;
-		while (--j >= 0)
-		{
-			if (cmp_contents(env->contents[j], env->contents[j + 1], env->opt))
-				break ;
-			swap(&env->contents[j], &env->contents[j + 1]);
-		}
-	}
-}
-
 void		sort_contents(t_env *env)
 {
 	if (env->opt['U'])
 		return ;
-	if (env->size < 10)
-		insertion_sort(env);
-	else
-		quick_sort(env->contents, 0, env->size - 1, env->opt);
+	quick_sort(env->contents, 0, env->size - 1, env->opt);
 }
