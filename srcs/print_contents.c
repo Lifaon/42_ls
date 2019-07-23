@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 14:23:19 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/07/23 21:50:37 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/07/23 21:55:41 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ static void	get_sizes(int (*sizes)[4], t_env *env)
 		(*sizes)[1] = ((*sizes)[1] >= tmp) ? (*sizes)[1] : tmp;
 		tmp = ft_shortstrlen(env->contents[i].grp_name) + 1;
 		(*sizes)[2] = ((*sizes)[2] >= tmp) ? (*sizes)[2] : tmp;
-		tmp = ft_uintsize(env->contents[i].size);
+		if (env->contents[i].type != 'c' && env->contents[i].type != 'b')
+			tmp = ft_uintsize(env->contents[i].size);
+		else
+			tmp = 8;
 		(*sizes)[3] = ((*sizes)[3] >= tmp) ? (*sizes)[3] : tmp;
 	}
 }
