@@ -6,7 +6,7 @@
 #    By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/21 22:00:00 by mlantonn          #+#    #+#              #
-#    Updated: 2019/07/23 18:39:33 by mlantonn         ###   ########.fr        #
+#    Updated: 2019/07/24 00:11:12 by mlantonn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,17 +64,19 @@ $(OBJS_DIR):
 	fi
 
 $(NAME): $(OBJS_DIR) $(OBJS_PRE)
-	@make -C $(DIR_FT_PRINTF)
+	@$(MAKE) -C $(DIR_FT_PRINTF)
 	@echo "gcc $(CFLAGS) $(OBJS_PRE) $(LIBS) -o $(MAG)$(NAME)$(EOC)"
 	@gcc $(CFLAGS) $(OBJS_PRE) $(LIBS) -o $(NAME)
 
 clean:
-	@make clean -C $(DIR_FT_PRINTF)
+	@$(MAKE) clean -C $(DIR_FT_PRINTF)
 	@echo "$(RED)rm -rf$(EOC) $(OBJS_DIR) from $(DIR_NAME)"
 	@rm -rf $(OBJS_DIR)
 
-fclean: clean
-	@make fclean -C $(DIR_FT_PRINTF)
+fclean:
+	@$(MAKE) fclean -C $(DIR_FT_PRINTF)
+	@echo "$(RED)rm -rf$(EOC) $(OBJS_DIR) from $(DIR_NAME)"
+	@rm -rf $(OBJS_DIR)
 	@echo "$(RED)rm -rf$(EOC) $(NAME)"
 	@rm -rf $(NAME)
 
