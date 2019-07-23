@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 17:02:07 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/06/12 19:53:16 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/07/23 22:13:43 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 static int	is_illegal_option(char c)
 {
 	if (c == 'P' || c == 'R' || c == 'U' || c == 'a' || c == 'f' || c == 'g'
-		|| c == 'l' || c == 'r' || c == 't' || c == '1')
+		|| c == 'l' || c == 'n' || c == 'o' || c == 'r' || c == 't' || c == '1')
 		return (0);
 	ft_dprintf(2, "ft_ls: illegal option -- '%c'\n", c);
-	ft_dprintf(2, "usage: ft_ls [-PRUafglrt1] [file...]\n");
+	ft_dprintf(2, "usage: ft_ls [-PRUafglnort1] [file...]\n");
 	return (1);
 }
 
@@ -29,7 +29,7 @@ static void	set_options(_Bool (*opt)[128])
 		(*opt)['a'] = 1;
 		(*opt)['U'] = 1;
 	}
-	if ((*opt)['g'])
+	if ((*opt)['g'] || (*opt)['n'] || (*opt)['o'])
 		(*opt)['l'] = 1;
 }
 

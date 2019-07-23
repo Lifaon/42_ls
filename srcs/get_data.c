@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 18:21:44 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/07/23 21:17:54 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/07/23 22:12:53 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,18 +65,23 @@ static void	get_owners(t_data *data, t_stat st, _Bool opt[128])
 	if (!opt['g'])
 	{
 		usr = getpwuid(st.st_uid);
-		if (usr)
+		if (usr && !opt['n'])
 			ft_snprintf(data->usr_name, 256, usr->pw_name);
 		else
 			ft_snprintf(data->usr_name, 256, "%u", st.st_uid);
 	}
 	else
 		data->usr_name[0] = '\0';
-	grp = getgrgid(st.st_gid);
-	if (grp)
-		ft_snprintf(data->grp_name, 256, grp->gr_name);
+	if (!opt['o'])
+	{
+		grp = getgrgid(st.st_gid);
+		if (grp && !opt['n'])
+			ft_snprintf(data->grp_name, 256, grp->gr_name);
+		else
+			ft_snprintf(data->grp_name, 256, "%u", st.st_gid);
+	}
 	else
-		ft_snprintf(data->grp_name, 256, "%u", st.st_gid);
+		data->grp_name[0] = '\0';
 }
 
 static void	get_time(t_data *data, time_t s_file)

@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 14:23:19 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/07/23 21:55:41 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/07/23 22:17:37 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	get_sizes(int (*sizes)[4], t_env *env)
 	{
 		tmp = ft_uintsize(env->contents[i].links);
 		(*sizes)[0] = ((*sizes)[0] >= tmp) ? (*sizes)[0] : tmp;
-		tmp = ft_shortstrlen(env->contents[i].usr_name) + !env->opt['g'] + 1;
+		tmp = ft_shortstrlen(env->contents[i].usr_name) + 1;
 		(*sizes)[1] = ((*sizes)[1] >= tmp) ? (*sizes)[1] : tmp;
 		tmp = ft_shortstrlen(env->contents[i].grp_name) + 1;
 		(*sizes)[2] = ((*sizes)[2] >= tmp) ? (*sizes)[2] : tmp;
@@ -37,7 +37,7 @@ static void	get_sizes(int (*sizes)[4], t_env *env)
 	}
 }
 
-static void	print_one_line(t_data content, int sizes[4])
+static void	print_one_line(t_data content, int sizes[4], _Bool opt[128])
 {
 	char link[261];
 
@@ -49,8 +49,10 @@ static void	print_one_line(t_data content, int sizes[4])
 	}
 	ft_printf_static("%c%-10s", content.type, content.rights);
 	ft_printf_static(" %*ld", sizes[0], content.links);
-	ft_printf_static(" %-*s", sizes[1], content.usr_name);
-	ft_printf_static("%-*s", sizes[2], content.grp_name);
+	if (!opt['g'])
+		ft_printf_static(" %-*s", sizes[1], content.usr_name);
+	if (!opt['o'])
+		ft_printf_static(" %-*s", sizes[2], content.grp_name);
 	if (content.type != 'c' && content.type != 'b')
 		ft_printf_static(" %*ld", sizes[3], content.size);
 	else
@@ -79,7 +81,7 @@ static void	print_details(t_env *env)
 		if (env->opt['P'] && (env->contents[i].type == 'd'
 			|| env->contents[i].type == 'l'))
 			continue ;
-		print_one_line(env->contents[i], sizes);
+		print_one_line(env->contents[i], sizes, env->opt);
 		env->printed++;
 	}
 }
