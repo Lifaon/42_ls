@@ -6,7 +6,7 @@
 /*   By: meriadec <meriadec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/07 12:41:35 by meriadec          #+#    #+#             */
-/*   Updated: 2019/07/23 20:59:48 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/07/23 23:24:42 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@
 # include <grp.h>
 # include <sys/ioctl.h>
 
-typedef struct dirent t_dirent;
-typedef struct stat t_stat;
-typedef struct passwd t_passwd;
-typedef struct group t_group;
-typedef struct winsize t_winsize;
+typedef struct dirent	t_dirent;
+typedef struct stat		t_stat;
+typedef struct passwd	t_passwd;
+typedef struct group	t_group;
+typedef struct winsize	t_winsize;
 
 typedef struct	s_data
 {

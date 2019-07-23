@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 14:23:19 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/07/23 23:21:20 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/07/23 23:23:43 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,8 @@ void		print_contents(t_env *env)
 						|| env->contents[i].type == 'l'))
 					continue ;
 				env->printed++;
-				ft_printf_static("%s\n", env->contents[i].name, env->contents[i].type);
+				ft_printf_static("%s\n", env->contents[i].name,
+					env->contents[i].type);
 			}
 	}
 	else
