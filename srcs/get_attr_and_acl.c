@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 18:38:28 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/07/23 18:38:53 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/07/23 19:14:00 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,31 +16,14 @@
 
 static int	get_attr(char (*rights)[11], char *path)
 {
-	static char	s[] = "posix_acl_access";
-	char		ptr[4097];
-	int			ret;
-	int			i;
-	int			j;
+	int	ret;
 
-	ret = listxattr(path, ptr, 4096, XATTR_NOFOLLOW);
-	if (!ret)
+	ret = listxattr(path, NULL, 0, XATTR_NOFOLLOW);
+	if (ret <= 0)
 		return (0);
-	i = -1;
-	while (++i < ret)
-	{
-		j = 0;
-		while (ptr[i + j] == s[j])
-			++j;
-		if (s[j])
-		{
-			(*rights)[9] = '@';
-			(*rights)[10] = '\0';
-			return (1);
-		}
-		while (ptr[i])
-			++i;
-	}
-	return (0);
+	(*rights)[9] = '@';
+	(*rights)[10] = '\0';
+	return (1);
 }
 
 static int	get_acl(char (*rights)[11], char *path)
@@ -58,7 +41,6 @@ static int	get_acl(char (*rights)[11], char *path)
 
 void		get_attr_and_acl(char (*rights)[11], char *path)
 {
-	if (get_attr(rights, path))
-		return ;
-	get_acl(rights, path);
+	if (!get_attr(rights, path))
+		get_acl(rights, path);
 }
