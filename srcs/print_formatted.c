@@ -6,13 +6,13 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 12:04:19 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/07/18 18:14:15 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/07/23 23:10:51 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static int	get_width(t_env *env)
+static void	get_width(t_env *env, int *width, int *size)
 {
 	int	i;
 	int	max;
@@ -20,24 +20,29 @@ static int	get_width(t_env *env)
 
 	i = -1;
 	max = 1;
+	*size = 0;
 	while (++i < env->size)
 	{
+		if (env->opt['P'] && (env->contents[i].type == 'd'
+			|| env->contents[i].type == 'l'))
+			continue ;
+		++*size;
 		tmp = 0;
 		while (env->contents[i].name[tmp])
 			++tmp;
 		if (tmp > max)
 			max = tmp;
 	}
-	return (((max / 8) * 8) + 8);
+	*width = ((max / 8) * 8) + 8;
 }
 
-static void	print(t_env *env, int cols, int width)
+static void	print(t_env *env, int cols, int width, int size)
 {
 	int lines;
 	int i;
 	int j;
 
-	lines = env->size / cols + (env->size % cols != 0);
+	lines = size / cols + (size % cols != 0);
 	i = -1;
 	while (++i < lines)
 	{
@@ -62,13 +67,14 @@ int			print_formatted(t_env *env)
 	t_winsize	ws;
 	int			width;
 	int			cols;
+	int			size;
 
 	if ((ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws)))
 		return (1);
-	width = get_width(env);
-	cols = (((ws.ws_col * 8) / 8) + 8) / width;
+	get_width(env, &width, &size);
+	cols = ((ws.ws_col / 8) * 8) / width;
 	if (cols == 1)
 		return (1);
-	print(env, cols, width);
+	print(env, cols, width, size);
 	return (0);
 }
