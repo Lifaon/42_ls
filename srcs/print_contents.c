@@ -6,37 +6,35 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 14:23:19 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/07/18 18:20:48 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/07/23 21:50:37 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static void	get_sizes(int (*sizes)[5], t_env *env)
+static void	get_sizes(int (*sizes)[4], t_env *env)
 {
 	int	tmp;
 	int	i;
 
 	i = -1;
-	while (++i < 5)
+	while (++i < 4)
 		(*sizes)[i] = 0;
 	i = -1;
 	while (++i < env->size)
 	{
-		tmp = env->contents[i].rights[9];
-		(*sizes)[0] = ((*sizes)[0] == 10 || tmp) ? 10 : 9;
 		tmp = ft_uintsize(env->contents[i].links);
+		(*sizes)[0] = ((*sizes)[0] >= tmp) ? (*sizes)[0] : tmp;
+		tmp = ft_shortstrlen(env->contents[i].usr_name) + !env->opt['g'] + 1;
 		(*sizes)[1] = ((*sizes)[1] >= tmp) ? (*sizes)[1] : tmp;
-		tmp = ft_shortstrlen(env->contents[i].usr_name) + !env->opt['g'];
+		tmp = ft_shortstrlen(env->contents[i].grp_name) + 1;
 		(*sizes)[2] = ((*sizes)[2] >= tmp) ? (*sizes)[2] : tmp;
-		tmp = ft_shortstrlen(env->contents[i].grp_name);
-		(*sizes)[3] = ((*sizes)[3] >= tmp) ? (*sizes)[3] : tmp;
 		tmp = ft_uintsize(env->contents[i].size);
-		(*sizes)[4] = ((*sizes)[4] >= tmp) ? (*sizes)[4] : tmp;
+		(*sizes)[3] = ((*sizes)[3] >= tmp) ? (*sizes)[3] : tmp;
 	}
 }
 
-static void	print_one_line(t_data content, int sizes[5])
+static void	print_one_line(t_data content, int sizes[4])
 {
 	char link[261];
 
@@ -46,17 +44,20 @@ static void	print_one_line(t_data content, int sizes[5])
 		ft_sprintf(link, " -> ");
 		link[4 + readlink(content.fullpath, link + 4, 256)] = '\0';
 	}
-	ft_printf_static("%c%-*s", content.type, sizes[0], content.rights);
-	ft_printf_static(" %*ld", sizes[1], content.links);
-	ft_printf_static(" %-*s", sizes[2], content.usr_name);
-	ft_printf_static("%-*s", sizes[3], content.grp_name);
-	ft_printf_static(" %*ld", sizes[4], content.size);
+	ft_printf_static("%c%-10s", content.type, content.rights);
+	ft_printf_static(" %*ld", sizes[0], content.links);
+	ft_printf_static(" %-*s", sizes[1], content.usr_name);
+	ft_printf_static("%-*s", sizes[2], content.grp_name);
+	if (content.type != 'c' && content.type != 'b')
+		ft_printf_static(" %*ld", sizes[3], content.size);
+	else
+		ft_printf_static(" %3d, %3d", content.major, content.minor);
 	ft_printf_static(" %s %s%s\n", content.time, content.name, link);
 }
 
 static void	print_details(t_env *env)
 {
-	int	sizes[5];
+	int	sizes[4];
 	int	blocks;
 	int	i;
 

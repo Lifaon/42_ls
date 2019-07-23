@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: meriadec <meriadec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/07 12:41:35 by meriadec          #+#    #+#             */
-/*   Updated: 2019/06/14 11:46:50 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/07/23 20:59:48 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ typedef struct	s_data
 	char		usr_name[256];
 	char		grp_name[256];
 	long int	size;
+	int			major;
+	int			minor;
 	long int	time_s;
 	char		time[13];
 	char		name[256];

@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 18:21:44 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/07/23 18:38:45 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/07/23 21:17:54 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,8 @@ int			get_data(t_data *data, _Bool opt[128])
 	data->grp_name[0] = '\0';
 	get_owners(data, st, opt);
 	data->size = st.st_size;
+	data->minor = st.st_rdev & 0xFFFFFF;
+	data->major = st.st_rdev >> 24;
 	data->blocks = st.st_blocks;
 	get_time(data, st.st_mtime);
 	return (0);
