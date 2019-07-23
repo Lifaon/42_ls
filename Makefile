@@ -6,7 +6,7 @@
 #    By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/21 22:00:00 by mlantonn          #+#    #+#              #
-#    Updated: 2019/06/13 10:19:58 by mlantonn         ###   ########.fr        #
+#    Updated: 2019/07/23 18:39:33 by mlantonn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ SRCS_DIR = srcs
 SRCS =	main.c \
 		ft_readargs.c \
 		ft_readdir.c \
+		get_attr_and_acl.c \
 		get_data.c \
 		print_contents.c \
 		print_formatted.c \

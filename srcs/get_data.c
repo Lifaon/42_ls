@@ -6,38 +6,11 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 18:21:44 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/07/18 18:18:55 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/07/23 18:38:45 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/xattr.h>
-#include <errno.h>
 #include "ft_ls.h"
-
-static void	get_attr(char (*rights)[11], char *path)
-{
-	char	ptr[4097];
-	int		ret;
-	int		i;
-
-	ret = listxattr(path, ptr, 4096, XATTR_NOFOLLOW);
-	if (!ret)
-		return ;
-	i = -1;
-	while (++i < ret)
-	{
-		// TODO: change strstr to ft_strstr
-		if (!strstr(ptr + i, "posix_acl_access"))
-		{
-			(*rights)[9] = '@';
-			(*rights)[10] = '\0';
-			return ;
-		}
-		while (ptr[i])
-			++i;
-	}
-	// TODO: retrieve '+' attributes
-}
 
 static void	get_rights(char (*rights)[11], t_stat st)
 {
@@ -137,7 +110,7 @@ int			get_data(t_data *data, _Bool opt[128])
 	if (!opt['l'])
 		return (0);
 	get_rights(&data->rights, st);
-	get_attr(&data->rights, data->fullpath);
+	get_attr_and_acl(&data->rights, data->fullpath);
 	data->links = st.st_nlink;
 	data->usr_name[0] = '\0';
 	data->grp_name[0] = '\0';
