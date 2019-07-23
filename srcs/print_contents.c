@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 14:23:19 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/07/23 22:17:37 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/07/23 23:21:20 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,7 @@ void		print_contents(t_env *env)
 	if (env->opt['R'])
 	{
 		if (sub++ > 0 || env->printed > 0)
-			ft_printf_static("\n");
-		ft_printf_static("%s:\n", env->path);
+			ft_printf_static("\n%s:\n", env->path);
 	}
 	if (!env->opt['l'])
 	{
