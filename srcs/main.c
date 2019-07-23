@@ -6,7 +6,7 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 17:02:07 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/07/23 22:13:43 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/07/24 00:16:55 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,18 @@ static int	is_illegal_option(char c)
 	return (1);
 }
 
-static void	set_options(_Bool (*opt)[128])
+static void	set_options(_Bool opt[128])
 {
-	if ((*opt)['f'])
+	if (opt['f'])
 	{
-		(*opt)['a'] = 1;
-		(*opt)['U'] = 1;
+		opt['a'] = 1;
+		opt['U'] = 1;
 	}
-	if ((*opt)['g'] || (*opt)['n'] || (*opt)['o'])
-		(*opt)['l'] = 1;
+	if (opt['g'] || opt['n'] || opt['o'])
+		opt['l'] = 1;
 }
 
-static int	get_options(int ac, char **av, _Bool (*opt)[128])
+static int	get_options(int ac, char **av, _Bool opt[128])
 {
 	int args;
 	int	i;
@@ -42,7 +42,7 @@ static int	get_options(int ac, char **av, _Bool (*opt)[128])
 	args = 0;
 	i = -1;
 	while (++i < 128)
-		(*opt)[i] = 0;
+		opt[i] = 0;
 	i = 0;
 	while (++i < ac)
 	{
@@ -54,7 +54,7 @@ static int	get_options(int ac, char **av, _Bool (*opt)[128])
 			{
 				if (is_illegal_option(av[i][j]))
 					return (-1);
-				(*opt)[av[i][j]] = 1;
+				opt[(int)av[i][j]] = 1;
 			}
 	}
 	set_options(opt);
@@ -66,7 +66,7 @@ int			main(int ac, char **av)
 	_Bool	opt[128];
 	int		args;
 
-	args = get_options(ac, av, &opt);
+	args = get_options(ac, av, opt);
 	if (args < 0)
 		return (-1);
 	if (!args)

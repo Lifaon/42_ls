@@ -6,20 +6,20 @@
 /*   By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 18:24:53 by mlantonn          #+#    #+#             */
-/*   Updated: 2019/06/13 17:54:13 by mlantonn         ###   ########.fr       */
+/*   Updated: 2019/07/24 00:18:25 by mlantonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 #include <errno.h>
 
-static int	init_env(t_env *env, int size, _Bool opt[128])
+static int	init_env(t_env *env, int args, _Bool opt[128])
 {
 	int	i;
 
 	env->path = NULL;
-	env->size = size;
-	env->args = size;
+	env->size = args;
+	env->args = args;
 	env->printed = 0;
 	i = -1;
 	while (++i < 128)
@@ -31,7 +31,7 @@ static int	init_env(t_env *env, int size, _Bool opt[128])
 	return (0);
 }
 
-static void	get_contents(t_env *env, int ac, char **av, int args)
+static void	get_contents(t_env *env, int ac, char **av)
 {
 	int	i;
 	int	j;
@@ -54,12 +54,10 @@ static void	get_contents(t_env *env, int ac, char **av, int args)
 void		ft_readargs(int ac, char **av, int args, _Bool opt[128])
 {
 	t_env	env;
-	int		i;
-	int		j;
 
 	if (init_env(&env, args, opt))
 		return ;
-	get_contents(&env, ac, av, args);
+	get_contents(&env, ac, av);
 	print_contents(&env);
 	env.opt['R'] = opt['R'];
 	read_subcontents(&env);

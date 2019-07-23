@@ -6,7 +6,7 @@
 #    By: mlantonn <mlantonn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/21 22:00:00 by mlantonn          #+#    #+#              #
-#    Updated: 2019/07/24 00:11:12 by mlantonn         ###   ########.fr        #
+#    Updated: 2019/07/24 00:15:30 by mlantonn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ DIR_NAME = ft_ls
 
 DIR_FT_PRINTF = ft_printf
 
-CFLAGS = #-Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 
 INCS = $(INC) $(INC_FT_PRINTF)
 INC = -I includes
