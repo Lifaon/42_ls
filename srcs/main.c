@@ -14,21 +14,18 @@
 
 static int	is_illegal_option(char c)
 {
-	if (c == 'P' || c == 'R' || c == 'U' || c == 'a' || c == 'f' || c == 'g'
+	if (c == 'P' || c == 'R' || c == 'a' || c == 'f' || c == 'g'
 		|| c == 'l' || c == 'n' || c == 'o' || c == 'r' || c == 't' || c == '1')
 		return (0);
 	ft_dprintf(2, "ft_ls: illegal option -- '%c'\n", c);
-	ft_dprintf(2, "usage: ft_ls [-PRUafglnort1] [file...]\n");
+	ft_dprintf(2, "usage: ft_ls [-PRafglnort1] [file...]\n");
 	return (1);
 }
 
 static void	set_options(_Bool opt[128])
 {
 	if (opt['f'])
-	{
 		opt['a'] = 1;
-		opt['U'] = 1;
-	}
 	if (opt['g'] || opt['n'] || opt['o'])
 		opt['l'] = 1;
 }

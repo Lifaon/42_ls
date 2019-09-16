@@ -70,7 +70,7 @@ static void	quick_sort(t_data *contents, int low, int high, _Bool opt[128])
 
 void		sort_contents(t_env *env)
 {
-	if (env->opt['U'])
+	if (env->opt['f'])
 		return ;
 	quick_sort(env->contents, 0, env->size - 1, env->opt);
 }
