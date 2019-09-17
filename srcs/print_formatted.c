@@ -73,7 +73,7 @@ int			print_formatted(t_env *env)
 		return (1);
 	get_width(env, &width, &size);
 	cols = ((ws.ws_col / 8) * 8) / width;
-	if (cols == 1)
+	if (cols <= 1)
 		return (1);
 	print(env, cols, width, size);
 	return (0);
